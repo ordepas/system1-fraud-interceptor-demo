@@ -1,0 +1,7 @@
+{
+  "name": "Fintech Risk Interceptor: System 1 vs System 2",
+  "description": "Dashboard interactivo de detección de fraude en tiempo real comparando la velocidad de Sistema 1 (Jev/ML) frente al razonamiento profundo de Sistema 2 (LLM).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
