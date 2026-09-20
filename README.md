@@ -1,97 +1,92 @@
-# Antifraude Cognitivo: Arquitectura Dual (Jev AI & Google Gemini)
+# System 1 Fraud Interceptor (demo)
 
-Sistema de detección y auditoría de fraude financiero en tiempo real basado en la teoría del **Pensamiento Rápido y Lento** (*Thinking, Fast and Slow* de Daniel Kahneman). Combina un motor reactivo de ultra baja latencia con un modelo deliberativo de razonamiento profundo.
+Demo de un **interceptor de fraude simulado** que compara, en paralelo y sobre **transacciones sintéticas**, dos formas de decidir:
 
----
+- **Sistema 1: Jev (TypeSafe AI).** Modelo rápido que responde con valores tipados (una opción, una probabilidad), sin generar texto.
+- **Sistema 2: Gemini 3.1 Flash Lite.** LLM que razona, decide y redacta un informe.
 
-## 🏛️ Arquitectura del Sistema
+La idea viene de Kahneman (*Pensar rápido, pensar despacio*): un modelo rápido para la decisión inmediata y uno deliberativo que la audita cuando hace falta.
+
+> **Es una demo de experimentación personal, no un benchmark.** Los resultados dependen de la carga del momento, del modelo y de los prompts usados.
+
+## Arquitectura
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                 Transacción Financiera                      │
-└──────────────┬───────────────────────────────┬──────────────┘
-               │                               │
-       (Ruta Rápida: <200ms)          (Ruta Deliberada: 2-7s)
-               ▼                               ▼
-  ┌─────────────────────────┐     ┌─────────────────────────┐
-  │   SISTEMA 1: Jev AI     │     │ SISTEMA 2: Google Gemini│
-  │   - Modelo reactivo     │     │ - Modelo deliberativo   │
-  │   - Inferencia sub-seg  │     │ - Análisis contextual   │
-  │   - Decisión directa    │     │ - Auditoría y riesgo    │
-  └────────────┬────────────┘     └────────────┬────────────┘
-               │                               │
-               └───────────────┬───────────────┘
-                               ▼
-            ┌────────────────────────────────────┐
-            │       Motor de Arbitraje           │
-            │  - Comparativa de decisiones       │
-            │  - Registro de auditoría           │
-            │  - Métricas de latencia y tokens   │
-            └────────────────────────────────────┘
+                Transacción sintética
+                         │
+          ┌──────────────┴──────────────┐
+          ▼                             ▼
+  Sistema 1: Jev (TypeSafe)     Sistema 2: Gemini
+  - Decisión tipada             - Decisión + informe
+  - Confianza y prob. de fraude - Razonamiento en texto
+  - Sin texto generado          - Más lento, más costoso
+          └──────────────┬──────────────┘
+                         ▼
+        Comparación: decisión, latencia, tokens
+                 + registro de auditoría
 ```
 
-### 1. Sistema 1: Motor Reactivo (Jev AI)
-- **Objetivo**: Evaluar transacciones en tiempo real (<200 ms).
-- **Entradas**: Telemetría de transacción, monto, ubicación, dispositivo, velocidad e IP.
-- **Salidas**: 
-  - `choice`: `APROBAR_DIRECTO`, `SOLICITAR_2FA`, `BLOQUEO_PREVENTIVO`.
-  - `confidence`: Nivel de certidumbre del modelo.
-  - `noul`: Probabilidad estimada de fraude.
+**Jev** recibe la transacción y responde con:
+- `decision`: `APROBAR_DIRECTO`, `SOLICITAR_2FA` o `BLOQUEO_PREVENTIVO`, con su confianza y la probabilidad de cada opción.
+- `is_fraud` (tipo `noul`): probabilidad de fraude entre 0 y 1.
 
-### 2. Sistema 2: Razonamiento Deliberado (Google Gemini)
-- **Objetivo**: Proporcionar auditoría forense, análisis de vectores de ataque y explicación en lenguaje natural.
-- **Modelos soportados**: `gemini-3.1-flash-lite`, `gemini-3.8-flash`.
-- **Resiliencia**: Incluye Circuit Breaker automático en caso de límites de cuota (HTTP 429).
+**Gemini** entrega su decisión, un informe en lenguaje natural y el uso de tokens. Si se alcanza el límite de cuota (HTTP 429), un circuit breaker activa un modo de contingencia **simulado**, indicado con la etiqueta "MODO SIMULADO" y excluido de las comparaciones.
 
----
+## Datos
 
-## 🚀 Inicio Rápido
+Todos los datos son **sintéticos**. Los nombres, comercios y montos son inventados y no corresponden a personas ni transacciones reales.
 
-### Prerrequisitos
-- Node.js 18+ instalado.
-- Clave de API de Google Gemini (opcional si se utiliza la clave de entorno).
+## Aviso sobre Jev
 
-### Instalación
+Jev es un modelo de **acceso anticipado** de [TypeSafe AI](https://typesafe.ai). Necesitas tu propia clave de API, que puedes solicitar allí. Las cifras de velocidad y costo de TypeSafe son del proveedor y provienen de sus propias pruebas. Consulta su [documentación](https://docs.typesafe.ai/introduction/quickstart).
+
+## Cómo ejecutarlo
+
+Requisitos: Node.js 20 o superior.
 
 ```bash
-# 1. Clonar el repositorio
-git clone <URL_DE_TU_REPOSITORIO>
-cd <DIRECTORIO>
-
-# 2. Instalar dependencias
+git clone https://github.com/ordepas/system1-fraud-interceptor-demo.git
+cd system1-fraud-interceptor-demo
 npm install
-
-# 3. Configurar variables de entorno (opcional)
-cp .env.example .env
-
-# 4. Iniciar en modo desarrollo
+cp .env.example .env    # completa tus propias claves
 npm run dev
 ```
 
-La aplicación estará disponible en `http://localhost:3000`.
+La aplicación queda disponible en `http://localhost:3000`.
+
+### Variables de entorno
+
+| Variable | Descripción |
+|---|---|
+| `GEMINI_API_KEY` | Clave de Google AI Studio para Gemini |
+| `JEV_API_URL` | Endpoint de TypeSafe: `https://api.typesafe.ai/v1/systemone` |
+| `JEV_API_KEY` | Tu clave de API de TypeSafe |
+
+También puedes ingresar las claves desde el panel de **Configuración** de la app; en ese caso se guardan en el `localStorage` de tu navegador.
+
+**Nunca subas tus claves al repositorio.** `.env` está en `.gitignore`.
+
+## Advertencias de uso
+
+- **Solo para ejecución local o entornos de prueba.** El backend acepta la URL y la clave de Jev desde el navegador y no tiene límite de tasa. **No lo expongas públicamente con tus claves del servidor**: cualquier visitante podría generar consumo con tu cuenta.
+- Cada evaluación consume tokens en ambos modelos. Usa claves con límites de gasto.
+- Es una simulación: no está pensada para producción ni para decisiones reales de fraude.
+
+## Limitaciones conocidas
+
+- Los tiempos de Gemini varían mucho entre llamadas (de unos segundos a más de 30 s), por lo que la relación de velocidad frente a Jev también varía.
+- El subtítulo de la cabecera es texto fijo.
+
+## Stack
+
+React 19, TypeScript, Tailwind CSS 4, Vite, Express, tsx, `@google/genai`.
+
+## Licencia
+
+MIT. Ver [LICENSE](LICENSE).
 
 ---
 
-## ⚙️ Variables de Entorno
+## English summary
 
-Puedes configurar un archivo `.env`:
-
-```env
-GEMINI_API_KEY=tu_clave_de_gemini_aqui
-```
-
-*Nota: También puedes ingresar tus claves de Gemini y de la API de Jev directamente desde la interfaz web en el panel de **Configuración**.*
-
----
-
-## 🛠️ Stack Tecnológico
-
-- **Frontend**: React 18, TypeScript, Tailwind CSS, Lucide Icons, Canvas Confetti.
-- **Backend / Proxy**: Express, tsx, esbuild, @google/genai SDK.
-- **Herramientas de Build**: Vite.
-
----
-
-## 📄 Licencia
-
-MIT
+A simulated fraud-interceptor demo that runs a System 1 model (Jev by TypeSafe AI, early access) and an LLM (Gemini 3.1 Flash Lite) in parallel on **synthetic transactions**, comparing latency, token usage and decisions. Personal experiment, **not a benchmark**. Run it locally with your own API keys (see `.env.example`); do not expose it publicly with server-side keys.
