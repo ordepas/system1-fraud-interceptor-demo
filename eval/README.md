@@ -9,7 +9,7 @@ Mide si la **aplicación** decide bien, no si el modelo es bueno. Sesenta casos 
 | 00 Spec y rúbrica | `spec.md` |
 | 01 Golden set | `golden_set.json` (60 casos versionados) |
 | 02 Runner | `eval_demo.mjs` |
-| 03 Grader | `grader.mjs` |
+| 03 Grader | `grader.mjs` (código) y `judge.mjs` (juez LLM con la rúbrica) |
 | 04 Metrics | `metrics.mjs` → `metrics.json` |
 | 05 Gate | `gate.mjs` → baseline vs candidato |
 
@@ -19,7 +19,8 @@ Mide si la **aplicación** decide bien, no si el modelo es bueno. Sesenta casos 
 node eval_demo.mjs --dump-set              # materializa golden_set.json (sin APIs)
 node eval_demo.mjs --n 60                  # corre los 60 casos → results.csv
 node grader.mjs                            # puntúa contra el set → scored.json
-node metrics.mjs                           # agrega → metrics.json
+node judge.mjs --sample 30                 # juez LLM con la rúbrica → judged.json (opcional)
+node metrics.mjs                           # agrega todo → metrics.json
 cp metrics.json baseline.json              # primera corrida: queda como referencia
 node gate.mjs --system jev                 # compara contra baseline; exit 1 si falla
 ```
@@ -33,6 +34,10 @@ Para correr contra el demo hace falta levantarlo en `127.0.0.1:3000` y tener las
 | acierto global | ≥ 85% |
 | p95 de latencia | ≤ 800 ms |
 | caída contra baseline | ≤ 2 puntos |
+| acuerdo del juez (si corre) | ≥ 70% |
+| kappa del juez (si corre) | ≥ 0,4 |
+
+El juez LLM necesita `GEMINI_API_KEY` con cuota activa. Si no responde, el script no escribe nada y sale con error: no se inventa un resultado.
 
 Son configurables: `node gate.mjs --min-accuracy 90 --max-p95 500 --max-drop 1`.
 

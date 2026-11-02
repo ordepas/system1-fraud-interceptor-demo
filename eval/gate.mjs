@@ -32,6 +32,15 @@ add('p95 de latencia', c.p95_ms <= maxP95, `${c.p95_ms} ms (máximo ${maxP95} ms
 add('caída contra baseline', c.accuracy >= b.accuracy - maxDrop,
   `${c.accuracy}% vs ${b.accuracy}% (máximo ${maxDrop} puntos)`);
 
+// el juez solo entra si existe judged.json en la corrida
+if (cand.systems?.judge) {
+  const minJudge = Number(arg('min-judge', 70));
+  const minKappa = Number(arg('min-kappa', 0.4));
+  const j = cand.systems.judge;
+  add('acuerdo del juez', j.accuracy >= minJudge, `${j.accuracy}% (mínimo ${minJudge}%)`);
+  add('kappa del juez', j.kappa >= minKappa, `${j.kappa} (mínimo ${minKappa})`);
+}
+
 console.log(`GATE · ${system} · candidato ${cand.generated_at ?? 'sin fecha'} vs baseline`);
 console.log('─'.repeat(58));
 for (const r of rules) console.log(`  ${r.ok ? 'PASA' : 'FALLA'}  ${r.name.padEnd(22)} ${r.detail}`);

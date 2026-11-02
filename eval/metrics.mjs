@@ -1,4 +1,5 @@
-// Agrega scored.json en metrics.json: acierto por clase, p50/p95 y dispersión.
+// Agrega scored.json (y judged.json si existe) en metrics.json.
+// Acierto por clase, p50/p95, dispersión y acuerdo del juez.
 import fs from 'node:fs';
 
 const scored = JSON.parse(fs.readFileSync('scored.json', 'utf8')).cases;
@@ -11,6 +12,20 @@ const sd = (a) => {
   const m = mean(a);
   return Math.sqrt(a.reduce((s, v) => s + (v - m) ** 2, 0) / a.length);
 };
+
+// kappa de Cohen: acuerdo que no se explica por azar
+function kappa(xs, ys) {
+  const n = xs.length;
+  if (!n) return null;
+  const po = xs.filter((x, i) => x === ys[i]).length / n;
+  const cats = [...new Set([...xs, ...ys])];
+  const pe = cats.reduce((s, c) => {
+    const px = xs.filter((x) => x === c).length / n;
+    const py = ys.filter((y) => y === c).length / n;
+    return s + px * py;
+  }, 0);
+  return pe === 1 ? 0 : Math.round(((po - pe) / (1 - pe)) * 1000) / 1000;
+}
 
 const classes = [...new Set(scored.map((s) => s.class).filter(Boolean))];
 const systems = {};
@@ -39,6 +54,28 @@ for (const [name, okKey, msKey] of [['jev', 'ok_jev', 'jev_ms'], ['gemini', 'ok_
   };
 }
 
+// juez LLM: acuerdo con la etiqueta y kappa
+if (fs.existsSync('judged.json')) {
+  const j = JSON.parse(fs.readFileSync('judged.json', 'utf8'));
+  const answered = j.cases.filter((x) => x.decision);
+  const byClass = {};
+  for (const c of classes) {
+    const g = answered.filter((x) => x.class === c);
+    byClass[c] = { base: g.length, hits: g.filter((x) => x.ok).length, accuracy: pct(g.filter((x) => x.ok).length, g.length) };
+  }
+  systems.judge = {
+    base: answered.length,
+    hits: answered.filter((x) => x.ok).length,
+    accuracy: pct(answered.filter((x) => x.ok).length, answered.length),
+    by_class: byClass,
+    kappa: new Set(answered.map((x) => x.expected)).size > 1
+      ? kappa(answered.map((x) => x.decision), answered.map((x) => x.expected))
+      : null,
+    model: j.model,
+    cases_total: j.cases.length,
+  };
+}
+
 const spread = {};
 for (const c of classes) {
   const v = scored.filter((s) => s.class === c && s.jev_fraude !== null).map((s) => s.jev_fraude);
@@ -49,7 +86,8 @@ const out = { version: 1, generated_at: new Date().toISOString(), cases: scored.
 fs.writeFileSync('metrics.json', JSON.stringify(out, null, 2) + '\n', 'utf8');
 
 for (const [name, s] of Object.entries(systems)) {
-  console.log(`${name.padEnd(7)} accuracy ${s.accuracy}% (${s.hits}/${s.base})  p50 ${s.p50_ms} ms  p95 ${s.p95_ms} ms`);
+  const extra = s.kappa !== undefined ? `  kappa ${s.kappa}` : '';
+  console.log(`${name.padEnd(7)} accuracy ${s.accuracy}% (${s.hits}/${s.base})${extra}`);
 }
 console.log('spread (sd de probabilidad de fraude):', classes.map((c) => `${c} ${spread[c].sd}`).join(' · '));
 console.log('metrics.json escrito');
