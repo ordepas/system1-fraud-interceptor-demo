@@ -1,8 +1,12 @@
 // Agrega scored.json (y judged.json si existe) en metrics.json.
-// Acierto por clase, p50/p95, dispersión y acuerdo del juez.
+// Acierto por clase, matriz de confusión, p50/p95, dispersión y acuerdo del juez.
 import fs from 'node:fs';
 
 const scored = JSON.parse(fs.readFileSync('scored.json', 'utf8')).cases;
+const setVersion = fs.existsSync('golden_set.json')
+  ? JSON.parse(fs.readFileSync('golden_set.json', 'utf8')).version
+  : null;
+
 const pct = (n, d) => (d ? Math.round((10000 * n) / d) / 100 : null);
 const sorted = (a) => [...a].sort((x, y) => x - y);
 const p = (arr, q) => (arr.length ? sorted(arr)[Math.floor(q * (arr.length - 1))] : null);
@@ -13,7 +17,6 @@ const sd = (a) => {
   return Math.sqrt(a.reduce((s, v) => s + (v - m) ** 2, 0) / a.length);
 };
 
-// kappa de Cohen: acuerdo que no se explica por azar
 function kappa(xs, ys) {
   const n = xs.length;
   if (!n) return null;
@@ -30,7 +33,10 @@ function kappa(xs, ys) {
 const classes = [...new Set(scored.map((s) => s.class).filter(Boolean))];
 const systems = {};
 
-for (const [name, okKey, msKey] of [['jev', 'ok_jev', 'jev_ms'], ['gemini', 'ok_gem', 'gem_ms']]) {
+for (const [name, okKey, msKey, decKey] of [
+  ['jev', 'ok_jev', 'jev_ms', 'jev'],
+  ['gemini', 'ok_gem', 'gem_ms', 'gem'],
+]) {
   const base = scored.filter((s) => s[okKey] !== null);
   const lat = base.map((s) => s[msKey]).filter((v) => typeof v === 'number');
   const byClass = {};
@@ -38,11 +44,21 @@ for (const [name, okKey, msKey] of [['jev', 'ok_jev', 'jev_ms'], ['gemini', 'ok_
     const g = base.filter((s) => s.class === c);
     byClass[c] = { base: g.length, hits: g.filter((s) => s[okKey]).length, accuracy: pct(g.filter((s) => s[okKey]).length, g.length) };
   }
+  // matriz de confusión: fila = esperado, columna = decidido
+  const confusion = {};
+  for (const c of classes) confusion[c] = {};
+  for (const s of base) {
+    const exp = s.expected ?? 'desconocido';
+    const dec = s[decKey] ?? 'sin_respuesta';
+    confusion[exp] = confusion[exp] ?? {};
+    confusion[exp][dec] = (confusion[exp][dec] ?? 0) + 1;
+  }
   systems[name] = {
     base: base.length,
     hits: base.filter((s) => s[okKey]).length,
     accuracy: pct(base.filter((s) => s[okKey]).length, base.length),
     by_class: byClass,
+    confusion,
     p50_ms: p(lat, 0.5),
     p95_ms: p(lat, 0.95),
     tokens_total: name === 'gemini'
@@ -54,26 +70,29 @@ for (const [name, okKey, msKey] of [['jev', 'ok_jev', 'jev_ms'], ['gemini', 'ok_
   };
 }
 
-// juez LLM: acuerdo con la etiqueta y kappa
+// juez: coincide con la etiqueta al juzgar la decisión del sistema
 if (fs.existsSync('judged.json')) {
   const j = JSON.parse(fs.readFileSync('judged.json', 'utf8'));
-  const answered = j.cases.filter((x) => x.decision);
-  const byClass = {};
-  for (const c of classes) {
-    const g = answered.filter((x) => x.class === c);
-    byClass[c] = { base: g.length, hits: g.filter((x) => x.ok).length, accuracy: pct(g.filter((x) => x.ok).length, g.length) };
-  }
+  if ((j.version ?? 1) < 2) {
+    console.warn('judged.json es del formato viejo (el juez no graduaba al sistema). Se ignora: corre judge.mjs otra vez.');
+  } else {
+  const answered = j.cases.filter((x) => x.verdict);
+  const agree = answered.filter((x) => (x.verdict === 'correcto') === x.decision_ok);
   systems.judge = {
+    system: j.system ?? 'jev',
     base: answered.length,
-    hits: answered.filter((x) => x.ok).length,
-    accuracy: pct(answered.filter((x) => x.ok).length, answered.length),
-    by_class: byClass,
-    kappa: new Set(answered.map((x) => x.expected)).size > 1
-      ? kappa(answered.map((x) => x.decision), answered.map((x) => x.expected))
+    hits: agree.length,
+    accuracy: pct(agree.length, answered.length),
+    kappa: answered.length > 1
+      ? kappa(
+        answered.map((x) => (x.verdict === 'correcto' ? 1 : 0)),
+        answered.map((x) => (x.decision_ok ? 1 : 0)),
+      )
       : null,
     model: j.model,
     cases_total: j.cases.length,
   };
+  }
 }
 
 const spread = {};
@@ -82,7 +101,14 @@ for (const c of classes) {
   spread[c] = { n: v.length, mean: v.length ? Math.round(mean(v) * 10) / 10 : null, sd: v.length ? Math.round(sd(v) * 10) / 10 : null };
 }
 
-const out = { version: 1, generated_at: new Date().toISOString(), cases: scored.length, systems, spread };
+const out = {
+  version: 2,
+  set_version: setVersion,
+  generated_at: new Date().toISOString(),
+  cases: scored.length,
+  systems,
+  spread,
+};
 fs.writeFileSync('metrics.json', JSON.stringify(out, null, 2) + '\n', 'utf8');
 
 for (const [name, s] of Object.entries(systems)) {
@@ -90,4 +116,4 @@ for (const [name, s] of Object.entries(systems)) {
   console.log(`${name.padEnd(7)} accuracy ${s.accuracy}% (${s.hits}/${s.base})${extra}`);
 }
 console.log('spread (sd de probabilidad de fraude):', classes.map((c) => `${c} ${spread[c].sd}`).join(' · '));
-console.log('metrics.json escrito');
+console.log(`metrics.json escrito (golden set v${setVersion})`);

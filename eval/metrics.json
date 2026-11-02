@@ -1,6 +1,7 @@
 {
-  "version": 1,
-  "generated_at": "2026-11-02T03:46:51.258Z",
+  "version": 2,
+  "set_version": 1,
+  "generated_at": "2026-11-02T04:36:21.121Z",
   "cases": 60,
   "systems": {
     "jev": {
@@ -22,6 +23,21 @@
           "base": 20,
           "hits": 15,
           "accuracy": 75
+        }
+      },
+      "confusion": {
+        "legítimo": {},
+        "fraude": {},
+        "gris": {},
+        "APROBAR_DIRECTO": {
+          "APROBAR_DIRECTO": 20
+        },
+        "BLOQUEO_PREVENTIVO": {
+          "BLOQUEO_PREVENTIVO": 20
+        },
+        "SOLICITAR_2FA": {
+          "SOLICITAR_2FA": 15,
+          "BLOQUEO_PREVENTIVO": 5
         }
       },
       "p50_ms": 260,
@@ -49,34 +65,24 @@
           "accuracy": 41.18
         }
       },
+      "confusion": {
+        "legítimo": {},
+        "fraude": {},
+        "gris": {},
+        "APROBAR_DIRECTO": {
+          "APROBAR_DIRECTO": 18
+        },
+        "BLOQUEO_PREVENTIVO": {
+          "BLOQUEO_PREVENTIVO": 19
+        },
+        "SOLICITAR_2FA": {
+          "BLOQUEO_PREVENTIVO": 10,
+          "SOLICITAR_2FA": 7
+        }
+      },
       "p50_ms": 2653,
       "p95_ms": 11078,
       "tokens_total": 45527
-    },
-    "judge": {
-      "base": 29,
-      "hits": 27,
-      "accuracy": 93.1,
-      "by_class": {
-        "legítimo": {
-          "base": 10,
-          "hits": 10,
-          "accuracy": 100
-        },
-        "fraude": {
-          "base": 9,
-          "hits": 9,
-          "accuracy": 100
-        },
-        "gris": {
-          "base": 10,
-          "hits": 8,
-          "accuracy": 80
-        }
-      },
-      "kappa": 0.896,
-      "model": "gemini-3.1-flash-lite",
-      "cases_total": 30
     }
   },
   "spread": {

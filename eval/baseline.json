@@ -1,6 +1,7 @@
 {
-  "version": 1,
-  "generated_at": "2026-11-02T03:13:52.882Z",
+  "version": 2,
+  "set_version": 1,
+  "generated_at": "2026-11-02T04:36:21.121Z",
   "cases": 60,
   "systems": {
     "jev": {
@@ -22,6 +23,21 @@
           "base": 20,
           "hits": 15,
           "accuracy": 75
+        }
+      },
+      "confusion": {
+        "legítimo": {},
+        "fraude": {},
+        "gris": {},
+        "APROBAR_DIRECTO": {
+          "APROBAR_DIRECTO": 20
+        },
+        "BLOQUEO_PREVENTIVO": {
+          "BLOQUEO_PREVENTIVO": 20
+        },
+        "SOLICITAR_2FA": {
+          "SOLICITAR_2FA": 15,
+          "BLOQUEO_PREVENTIVO": 5
         }
       },
       "p50_ms": 260,
@@ -47,6 +63,21 @@
           "base": 17,
           "hits": 7,
           "accuracy": 41.18
+        }
+      },
+      "confusion": {
+        "legítimo": {},
+        "fraude": {},
+        "gris": {},
+        "APROBAR_DIRECTO": {
+          "APROBAR_DIRECTO": 18
+        },
+        "BLOQUEO_PREVENTIVO": {
+          "BLOQUEO_PREVENTIVO": 19
+        },
+        "SOLICITAR_2FA": {
+          "BLOQUEO_PREVENTIVO": 10,
+          "SOLICITAR_2FA": 7
         }
       },
       "p50_ms": 2653,

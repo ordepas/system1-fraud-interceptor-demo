@@ -105,7 +105,6 @@ app.post('/api/evaluate/gemini', async (req: Request, res: Response) => {
 Analiza la siguiente transacción bancaria en busca de indicadores de compromiso, suplantación de identidad o anomalías:
 
 DETALLES DE TRANSACCIÓN:
-- ID: ${transaction.id}
 - Titular: ${transaction.user}
 - Importe: ${transaction.amountFormatted} (${transaction.amount} USD)
 - Comercio: ${transaction.merchant}
@@ -113,11 +112,10 @@ DETALLES DE TRANSACCIÓN:
 - Dispositivo: ${transaction.device}
 - IP y Ubicación: ${transaction.ip} (${transaction.location})
 - Frecuencia reciente: ${transaction.velocityLastHour} transacciones/hora
-- Anomalía detectada en origen: ${transaction.isAnomaly ? 'SÍ' : 'NO'}
 
 Genera un informe analítico conciso en español con la siguiente estructura exacta:
 [SISTEMA 2 / RAZONAMIENTO DELIBERADO]
-Evaluando transacción ${transaction.id} para ${transaction.user}.
+Evaluando la transacción del titular.
 
 1. EXAMEN DEL CONTEXTO:
 (Explica la evaluación del importe contra el comercio y contexto reportado)
@@ -197,7 +195,7 @@ Justificación operativa breve para el equipo de disputas.`;
       const risk = isHighRisk ? (transaction.amount > 2000 ? 'CRÍTICO' : 'ALTO') : 'BAJO';
 
       reasoningText = `[SISTEMA 2 / RAZONAMIENTO DELIBERADO]
-Evaluando transacción ${transaction.id} para ${transaction.user} (Monto: ${transaction.amountFormatted}, Comercio: ${transaction.merchant}).
+Evaluando transacción (Monto: ${transaction.amountFormatted}, Comercio: ${transaction.merchant}).
 
 1. EXAMEN DEL CONTEXTO:
 Se evaluó el comportamiento histórico del titular en correlación con el dispositivo (${transaction.device}) y ubicación (${transaction.location}). El contexto reporta: "${transaction.context}".

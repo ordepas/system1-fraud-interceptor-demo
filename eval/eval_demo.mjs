@@ -1,10 +1,11 @@
 // Eval del demo System 1 vs System 2. Genera casos sinteticos etiquetados,
 // los pasa por los dos endpoints del server.ts y escribe results.csv + resumen.
 // Uso: GEMINI_EVAL_KEY=... node eval_demo.mjs [--n 60] [--url http://127.0.0.1:3000]
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, existsSync, readFileSync } from 'node:fs';
 
 const arg = (k, d) => { const i = process.argv.indexOf(`--${k}`); return i > -1 ? process.argv[i + 1] : d; };
 const BASE = arg('url', 'http://127.0.0.1:3000');
+const SET_PATH = 'golden_set.json';
 const PER_CLASS = Math.round(Number(arg('n', 60)) / 3);
 
 const USERS = [
@@ -77,19 +78,36 @@ function build(cls, i) {
   };
 }
 
-const cases = [];
+let cases = [];
 for (const cls of ['legit', 'fraud', 'gray']) {
   for (let i = 0; i < PER_CLASS; i++) cases.push(build(cls, i));
 }
 
-// --dump-set: materializa el golden set sin llamar a ninguna API
+// --dump-set: materializa el golden set. Nunca pisa una versión existente sin --force.
 if (process.argv.includes('--dump-set')) {
+  if (existsSync(SET_PATH) && !process.argv.includes('--force')) {
+    console.error('golden_set.json ya existe. Usa --force para regenerarlo (sube la versión).');
+    process.exit(1);
+  }
+  const old = existsSync(SET_PATH) ? JSON.parse(readFileSync(SET_PATH, 'utf8')) : { version: 0, cases: [] };
+  const prev = old.version || 0;
+  // lo promovido desde producción nunca se pisa al regenerar
+  const kept = old.cases.filter((c) => c.source === 'produccion');
   const set = cases.map((c) => ({
     id: c.transaction.id, class: c.classKey, expected: c.expected, transaction: c.transaction,
-  }));
-  writeFileSync('golden_set.json', JSON.stringify({ version: 1, cases: set }, null, 2) + '\n', 'utf8');
-  console.log(`golden_set.json: ${set.length} casos`);
+  })).concat(kept);
+  writeFileSync(SET_PATH, JSON.stringify({ version: prev + 1, cases: set }, null, 2) + '\n', 'utf8');
+  console.log(`golden_set.json v${prev + 1}: ${set.length} casos`);
   process.exit(0);
+}
+
+// el set versionado es la fuente de verdad: si existe, se ejecuta ese, no lo regenerado
+let SET_VERSION = null;
+if (existsSync(SET_PATH) && !process.argv.includes('--regenerate')) {
+  const set = JSON.parse(readFileSync(SET_PATH, 'utf8'));
+  SET_VERSION = set.version;
+  cases = set.cases.map((c) => ({ classKey: c.class, expected: c.expected, transaction: c.transaction }));
+  console.log(`golden set v${SET_VERSION}: ${cases.length} casos`);
 }
 
 const JEV_URL = process.env.JEV_API_URL || 'https://api.typesafe.ai/v1/systemone';
@@ -127,7 +145,7 @@ for (const [idx, c] of cases.entries()) {
   const gemChoice = gem.ok ? gem.json.recommendation : null;
   const gemSrc = gem.ok ? gem.json.source : 'error';
   rows.push({
-    id: c.transaction.id, clase: c.classKey, esperado: c.expected,
+    id: c.transaction.id, clase: c.classKey, esperado: c.expected, set_version: SET_VERSION ?? 'generado',
     jev: jevChoice, jev_ms: jev.ok ? jev.json.latencyMs : null,
     jev_conf: jev.ok ? jev.json.decisionConfidence : null,
     jev_fraude: jev.ok ? jev.json.nullFraudProbability : null,

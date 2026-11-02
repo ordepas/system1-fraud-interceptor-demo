@@ -1,92 +1,67 @@
 # Eval del demo de interceptación de fraude
 
-Mide si la **aplicación** decide bien, no si el modelo es bueno. Sesenta casos sintéticos con la decisión esperada fijada antes de correr nada, pasados por los dos sistemas del demo.
+Mide si la **aplicación** decide bien, no si el modelo es bueno.
+
+> **Los artefactos grabados (`results.csv`, `metrics.json`, `baseline.json`) son de la corrida del 2026-10-31, anterior a la corrección de fugas.** En esa versión el id del caso (`EVAL-fraud-001`) y el campo `isAnomaly` viajaban dentro del prompt de Gemini, así que sus números no son válidos para publicar. El código ya está corregido; hay que regenerar la corrida y el baseline.
 
 ## Las seis piezas y dónde viven
 
 | pieza | archivo |
 |---|---|
 | 00 Spec y rúbrica | `spec.md` |
-| 01 Golden set | `golden_set.json` (60 casos versionados) |
+| 01 Golden set | `golden_set.json` — **el runner lo lee**; es la fuente de verdad |
 | 02 Runner | `eval_demo.mjs` |
-| 03 Grader | `grader.mjs` (código) y `judge.mjs` (juez LLM con la rúbrica) |
+| 03 Graders | `grader.mjs` (código) y `judge.mjs` (juez LLM que gradúa la decisión) |
 | 04 Metrics | `metrics.mjs` → `metrics.json` |
-| 05 Gate | `gate.mjs` → baseline vs candidato |
+| 05 Gate | `gate.mjs` → baseline congelado vs candidato |
 | ciclo | `promote.mjs` → fallo adjudicado al golden set |
 
 ## Flujo
 
 ```bash
-node eval_demo.mjs --dump-set              # materializa golden_set.json (sin APIs)
-node eval_demo.mjs --n 60                  # corre los 60 casos → results.csv
+node eval_demo.mjs --dump-set              # materializa golden_set.json v1 (sin APIs)
+node eval_demo.mjs                         # ejecuta el SET (no lo regenera) → results.csv
 node grader.mjs                            # puntúa contra el set → scored.json
-node judge.mjs --sample 30                 # juez LLM con la rúbrica → judged.json (opcional)
-node metrics.mjs                           # agrega todo → metrics.json
-cp metrics.json baseline.json              # primera corrida: queda como referencia
-node gate.mjs --system jev                 # compara contra baseline; exit 1 si falla
+node judge.mjs --system jev --sample 30    # juez LLM que gradúa la decisión → judged.json
+node metrics.mjs                           # agrega → metrics.json
+cp metrics.json baseline.json              # PRIMERA corrida: queda congelada como referencia
+node gate.mjs --system jev                 # exit 1 si falla alguna regla
 ```
 
-Para correr contra el demo hace falta levantarlo en `127.0.0.1:3000` y tener las claves del `.env.example`. `--dump-set`, `grader`, `metrics`, `gate` y `promote` no llaman a ningún modelo.
-
-## Cerrar el ciclo
-
-Un fallo real se adjudica a mano y entra al set con versión nueva:
-
-```bash
-node promote.mjs --id EVAL-gray-004 --decision SOLICITAR_2FA --note "revisado 2026-11-02"
-# golden set v2: 61 casos
-#   + EVAL-gray-004-v2  (gris)  SOLICITAR_2FA -> SOLICITAR_2FA  [sin cambio de etiqueta]
-```
-
-Si la etiqueta cambia, el caso entra como `id-vN` y el anterior queda en `supersedes`: las corridas viejas dejan de ser comparables y hay que regenerar el baseline.
-
-## El gate rechazando un candidato
-
-```bash
-node gate.mjs --system gemini --baseline-system jev --baseline baseline.jev.json
-```
-
-```
-  FALLA  accuracy mínima        81.48% (mínimo 85%)
-  FALLA  p95 de latencia        11078 ms (máximo 800 ms)
-  FALLA  caída contra baseline  81.48% vs 91.67% (máximo 2 puntos)
-GATE CERRADO · 3 regla(s) fallan
-```
-
-Eso demuestra que el gate filtra. No demuestra que exista un candidato propio que lo haya pasado: hasta hoy el único sistema que lo pasa es el que define el baseline.
+`--dump-set` se niega a pisar un set existente sin `--force`, y al regenerar conserva los casos con `source: "produccion"`. `--regenerate` ignora el set y usa el generador, solo para depurar.
 
 ## Reglas del gate
 
-| regla | umbral de arranque |
+Falla cerrado: sin datos no pasa.
+
+| regla | umbral |
 |---|---|
+| versión del dataset | candidato y baseline deben coincidir |
+| corrida independiente | no puede ser el mismo `generated_at` |
+| cobertura completa | deben estar todos los casos del set |
 | acierto global | ≥ 85% |
-| p95 de latencia | ≤ 800 ms |
+| p95 de latencia | ≤ 800 ms (sin datos, falla) |
 | caída contra baseline | ≤ 2 puntos |
-| acuerdo del juez (si corre) | ≥ 70% |
-| kappa del juez (si corre) | ≥ 0,4 |
+| caída en la zona gris | ≤ 2 puntos |
+| acuerdo del juez (si corrió) | ≥ 70% |
+| kappa del juez (si corrió) | ≥ 0,4 |
 
-El juez LLM necesita `GEMINI_API_KEY` con cuota activa. Si no responde, el script no escribe nada y sale con error: no se inventa un resultado.
+## Cerrar el ciclo
 
-Son configurables: `node gate.mjs --min-accuracy 90 --max-p95 500 --max-drop 1`.
+```bash
+# fallo nuevo de producción, con su transacción observada
+node promote.mjs --from-json caso.json
 
-## Resultado de la corrida de referencia
+# re-adjudicación de un caso existente (crea id-vN y marca el original como superseded)
+node promote.mjs --id EVAL-gray-004 --decision SOLICITAR_2FA --note "revisado 2026-11-02"
+```
 
-| | Jev | Gemini |
-|---|---|---|
-| Acierto global | 91,7% (55/60) | 81,5% (44/54) |
-| Casos claros | 100% | 100% |
-| Zona gris | 15/20 | 7/17 |
-| Latencia p50 / p95 | 260 / 329 ms | 2653 / 11078 ms |
-| Tokens | — | 45.527 en total (~760 por caso) |
+El caso promovido se ejecuta en la siguiente corrida porque el runner lee el set. El grader omite los casos marcados como `superseded_by`. Toda promoción sube la versión y obliga a regenerar el baseline.
 
-Dispersión de la probabilidad de fraude de Jev: 3,1 puntos en legítimos, 4,4 en fraudes y 15,1 en ambiguos.
+## Límites conocidos
 
-**Juez LLM** (`judge.mjs`, muestra estratificada de 30: 10 por clase): 93,1% de acuerdo con las etiquetas (27/29 con respuesta) y kappa de Cohen 0,896. Un caso quedó sin respuesta por límite de cuota. Sus dos desacuerdos están en la zona gris: aprobó dos casos que la rúbrica manda a 2FA.
-
-Gemini dejó 6 casos sin respuesta (contingencia del demo), por eso su base es 54 y no 60.
-
-## Límites
-
+- **12 plantillas, no 60 casos.** Cada clase tiene 4 contextos repetidos 5 veces con distinto titular. Los porcentajes por clase valen sobre 4 escenarios, no sobre 20 muestras independientes.
+- **El dataset tiene correlaciones perfectas.** Todos los fraudes llevan `isAnomaly: true` y ubicación "RU"; el resto, lo contrario. Ya no se envían al modelo, pero deberían diversificarse en un set v2.
+- **El juez no ve el razonamiento.** Gradúa la decisión contra la rúbrica. Para graduar el razonamiento habría que persistir el texto del informe.
+- **No hay calibración humana independiente.** Las etiquetas del set son la referencia; no existe un holdout etiquetado por otra persona.
 - Datos sintéticos y etiquetas puestas por mí: mide acuerdo con mi criterio, no con el mundo.
-- Compara dos sistemas bajo la misma vara y detecta regresiones. No prueba que funcione en producción.
-- Con 60 casos la señal es direccional, no una significancia estadística.

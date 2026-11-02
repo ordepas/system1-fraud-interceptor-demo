@@ -1,6 +1,6 @@
-// Juez LLM: aplica la rúbrica de spec.md y emite una decisión por caso.
-// Uso: GEMINI_API_KEY=... node judge.mjs [--only gray|all] [--sample N]
-// Sin clave no corre: no inventa resultados.
+// Juez LLM: gradúa la DECISIÓN de un sistema contra la rúbrica de spec.md.
+// No re-resuelve el caso ni ve la etiqueta esperada. Sin clave no corre.
+// Uso: GEMINI_API_KEY=... node judge.mjs [--system jev|gemini] [--sample 30]
 import fs from 'node:fs';
 
 const arg = (k, d) => {
@@ -16,44 +16,66 @@ if (!KEY) {
   process.exit(2);
 }
 
-const set = JSON.parse(fs.readFileSync('golden_set.json', 'utf8')).cases;
-const only = arg('only', 'all');
-let cases = only === 'all' ? set : set.filter((c) => c.class === 'gris');
-const sample = Number(arg('sample', 30));
-if (sample > 0) {
-  if (only === 'all') {
-    // estratificado: mismas porciones de cada clase, si no la muestra cae en los casos fáciles
-    const classes = ['legítimo', 'fraude', 'gris'];
-    const per = Math.ceil(sample / classes.length);
-    cases = classes.flatMap((c) => cases.filter((x) => x.class === c).slice(0, per)).slice(0, sample);
-  } else {
-    cases = cases.slice(0, sample);
-  }
+const SYSTEM = arg('system', 'jev');
+const SAMPLE = Number(arg('sample', 30));
+const DECISIONS = ['APROBAR_DIRECTO', 'SOLICITAR_2FA', 'BLOQUEO_PREVENTIVO'];
+
+// el juez lee lo que produjo el sistema, no el set
+const scored = JSON.parse(fs.readFileSync('scored.json', 'utf8')).cases;
+const pool = scored.filter((c) => c[SYSTEM] && c[SYSTEM] !== '');
+if (!pool.length) {
+  console.error(`No hay decisiones de "${SYSTEM}" en scored.json.`);
+  process.exit(1);
 }
 
-const RUBRIC = `Eres un juez que aplica una rúbrica fija, no tu criterio. Decide entre tres salidas:
-APROBAR_DIRECTO, SOLICITAR_2FA o BLOQUEO_PREVENTIVO.
-Aplica en orden y devuelve la primera que se cumple:
+// muestra estratificada por clase, con offset para no ser siempre un prefijo
+const classes = [...new Set(pool.map((c) => c.class))];
+const per = Math.ceil(SAMPLE / classes.length);
+let cases = [];
+for (const cls of classes) {
+  const g = pool.filter((c) => c.class === cls);
+  const step = Math.max(1, Math.floor(g.length / per));
+  cases = cases.concat(g.filter((_, i) => i % step === 0).slice(0, per));
+}
+cases = cases.slice(0, SAMPLE);
+
+const RUBRIC = `Eres un juez que aplica una rúbrica fija. Recibes una transacción y la decisión que tomó un sistema.
+Tu tarea NO es resolver el caso: es decir si la decisión respeta la rúbrica.
+Rúbrica, se aplica en orden y gana la primera que se cumple:
 1. Bloquear si hay dos o más señales altas juntas: dispositivo nuevo, CVV fallidos, geopatrón imposible, ráfaga anómala, comercio de riesgo.
 2. Pedir 2FA si hay una señal alta o dos medias y ninguna conclusiva.
 3. Aprobar si no hay señales, o si la anomalía está explicada por el contexto (viaje declarado, compra planificada, dispositivo registrado).
-Responde SOLO con JSON: {"decision":"...","score":0.0,"reason":"..."}
-score es tu confianza en la decisión, de 0 a 1.`;
+Responde SOLO con JSON: {"verdict":"correcto"|"incorrecto","score":0.0,"reason":"..."}
+score es tu confianza, de 0 a 1. No uses el nombre ni el id del caso: evalúa solo los hechos.`;
 
 function caseText(c) {
-  const t = c.transaction;
-  return `Comercio: ${t.merchant}
-Importe: ${t.amountFormatted}
-Dispositivo: ${t.device}
-Ubicación: ${t.location}
-Velocidad (transacciones última hora): ${t.velocityLastHour}
-Anomalía declarada por el sistema: ${t.isAnomaly}
-Contexto: ${t.context}`;
+  return `Comercio: ${c.merchant}
+Importe: ${c.amount}
+Dispositivo: ${c.device}
+Ubicación: ${c.location}
+Velocidad (transacciones última hora): ${c.velocityLastHour}
+Contexto: ${c.context}
+DECISIÓN DEL SISTEMA: ${c.decision}`;
+}
+
+// el scored.json no guarda la transacción completa: se toma del set por id
+const set = JSON.parse(fs.readFileSync('golden_set.json', 'utf8')).cases;
+const byId = new Map(set.map((c) => [c.id, c]));
+
+function payload(c) {
+  const origin = byId.get(c.id);
+  const t = origin?.transaction ?? {};
+  return {
+    merchant: t.merchant ?? '', amount: t.amountFormatted ?? t.amount ?? '',
+    device: t.device ?? '', location: t.location ?? '',
+    velocityLastHour: t.velocityLastHour ?? '', context: t.context ?? '',
+    decision: c[SYSTEM],
+  };
 }
 
 async function judge(c) {
   const body = {
-    contents: [{ parts: [{ text: `${RUBRIC}\n\nCASO ${c.id}\n${caseText(c)}` }] }],
+    contents: [{ parts: [{ text: `${RUBRIC}\n\nCASO\n${caseText(payload(c))}` }] }],
     generationConfig: { responseMimeType: 'application/json', temperature: 0 },
   };
   for (let attempt = 0; attempt < 3; attempt++) {
@@ -66,9 +88,10 @@ async function judge(c) {
       const json = await res.json();
       const text = json.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
       const out = JSON.parse(text);
-      return { decision: out.decision ?? null, score: Number(out.score) || null, reason: String(out.reason ?? '') };
+      const verdict = out.verdict === 'correcto' ? 'correcto' : out.verdict === 'incorrecto' ? 'incorrecto' : null;
+      return { verdict, score: Number(out.score) || null, reason: String(out.reason ?? '') };
     } catch (e) {
-      if (attempt === 2) return { decision: null, score: null, reason: `ERROR: ${e.message}` };
+      if (attempt === 2) return { verdict: null, score: null, reason: `ERROR: ${e.message}` };
       await sleep(2000 * (attempt + 1));
     }
   }
@@ -81,22 +104,30 @@ for (let i = 0; i < cases.length; i += CONCURRENCY) {
   const verdicts = await Promise.all(batch.map((c) => judge(c)));
   batch.forEach((c, k) => {
     const v = verdicts[k];
-    rows.push({ id: c.id, class: c.class, expected: c.expected, ...v, ok: v.decision === c.expected });
+    // la etiqueta y la corrección real quedan del lado del eval, no del juez
+    rows.push({
+      id: c.id, class: c.class, system: SYSTEM,
+      decision: c[SYSTEM], expected: c.expected,
+      decision_ok: c[SYSTEM] === c.expected,
+      ...v,
+    });
   });
   process.stdout.write(`\r${Math.min(i + CONCURRENCY, cases.length)}/${cases.length}      `);
 }
 process.stdout.write('\n');
 
-const judged = {
-  version: 1, model: MODEL, generated_at: new Date().toISOString(),
-  rubric: 'spec.md', cases: rows,
-};
-const hits = rows.filter((r) => r.ok).length;
-const answered = rows.filter((r) => r.decision).length;
-if (answered === 0) {
+const answered = rows.filter((r) => r.verdict);
+if (answered.length === 0) {
   console.error(`Ninguna llamada respondió, no se escribe judged.json. Primer error: ${rows[0]?.reason ?? 'desconocido'}`);
   process.exit(1);
 }
+
+const judged = {
+  version: 2, model: MODEL, system: SYSTEM, rubric: 'spec.md',
+  generated_at: new Date().toISOString(), cases: rows,
+};
 fs.writeFileSync('judged.json', JSON.stringify(judged, null, 2) + '\n', 'utf8');
-console.log(`judged.json: ${rows.length} casos · juez ${hits}/${answered} de acuerdo con la etiqueta`);
-if (answered < rows.length) console.log(`  ${rows.length - answered} caso(s) sin respuesta del juez`);
+
+const agree = answered.filter((r) => (r.verdict === 'correcto') === r.decision_ok).length;
+console.log(`judged.json: ${rows.length} casos · el juez coincide con la etiqueta en ${agree}/${answered.length}`);
+if (answered.length < rows.length) console.log(`  ${rows.length - answered.length} caso(s) sin respuesta del juez`);
