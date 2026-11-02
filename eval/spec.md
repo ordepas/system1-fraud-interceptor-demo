@@ -29,3 +29,16 @@ Un cambio es aceptable si:
 - y el acierto por clase no se derrumba en la zona gris, que es donde vive la diferencia.
 
 Estos valores son de arranque, no una verdad. Se escriben antes de correr y se ajustan cuando el set crezca.
+
+## Cobertura del golden set
+
+Un set completo cubre cuatro tipos de caso. La v1 no los tiene todos, y conviene saber cuál falta antes de leer los porcentajes.
+
+| categoría | qué prueba | en la v1 |
+|---|---|---|
+| claros (`easy`) | decisiones sin ambigüedad | 20 legítimos y 20 fraudes |
+| borde (`edge`) | señales contradictorias que exigen juicio | 20 ambiguos |
+| adversarial | contexto que intenta reescribir las instrucciones | 1 de las 4 plantillas de fraude |
+| sin respuesta (`unanswerable`) | contexto insuficiente para decidir | **no implementado** |
+
+La cuarta categoría no existe porque la app solo tiene tres salidas: aprobar, pedir 2FA o bloquear. Un caso sin respuesta exigiría una cuarta decisión —escalar a revisión humana— y una etiqueta que hoy no se puede emitir. Queda como la pieza que falta para que el set describa el problema real, no solo el que la app sabe resolver.
