@@ -3,7 +3,7 @@
   "model": "gemini-3.1-flash-lite",
   "system": "jev",
   "rubric": "spec.md",
-  "generated_at": "2026-11-02T17:27:22.310Z",
+  "generated_at": "2026-11-02T23:14:41.740Z",
   "cases": [
     {
       "id": "EVAL-legit-001",
@@ -232,9 +232,9 @@
       "decision": "SOLICITAR_2FA",
       "expected": "SOLICITAR_2FA",
       "decision_ok": true,
-      "verdict": "incorrecto",
-      "score": 1,
-      "reason": "El dispositivo nuevo es una señal alta. Al ser un comercio habitual, el contexto explica la compra, lo cual activa la regla 3 (Aprobar) antes que la regla 2 (2FA)."
+      "verdict": null,
+      "score": null,
+      "reason": "ERROR: HTTP 429"
     },
     {
       "id": "EVAL-gray-003",
@@ -254,9 +254,9 @@
       "decision": "SOLICITAR_2FA",
       "expected": "SOLICITAR_2FA",
       "decision_ok": true,
-      "verdict": "correcto",
-      "score": 1,
-      "reason": "El dispositivo es nuevo (señal alta) y la velocidad de transacciones es baja (no constituye ráfaga anómala). Al haber una sola señal alta y ninguna otra, la rúbrica dicta solicitar 2FA."
+      "verdict": null,
+      "score": null,
+      "reason": "ERROR: HTTP 429"
     },
     {
       "id": "EVAL-gray-007",
@@ -265,9 +265,9 @@
       "decision": "BLOQUEO_PREVENTIVO",
       "expected": "SOLICITAR_2FA",
       "decision_ok": false,
-      "verdict": "incorrecto",
-      "score": 0.9,
-      "reason": "La rúbrica indica que el bloqueo solo procede ante dos o más señales altas. En este caso, solo se identifica una señal alta (ráfaga anómala por velocidad de transacciones), mientras que el comercio y el dispositivo son habituales, lo cual mitiga el riesgo. Según la regla 2, correspondía pedir 2FA."
+      "verdict": null,
+      "score": null,
+      "reason": "ERROR: HTTP 429"
     },
     {
       "id": "EVAL-gray-009",
@@ -276,9 +276,9 @@
       "decision": "SOLICITAR_2FA",
       "expected": "SOLICITAR_2FA",
       "decision_ok": true,
-      "verdict": "correcto",
-      "score": 1,
-      "reason": "El dispositivo nuevo es una señal alta. Al no haber otras señales altas, no se cumple la regla 1. Al haber una señal alta (dispositivo nuevo), la regla 2 dicta solicitar 2FA, lo cual coincide con la decisión del sistema."
+      "verdict": null,
+      "score": null,
+      "reason": "ERROR: HTTP 429"
     },
     {
       "id": "EVAL-gray-011",
@@ -287,9 +287,9 @@
       "decision": "BLOQUEO_PREVENTIVO",
       "expected": "SOLICITAR_2FA",
       "decision_ok": false,
-      "verdict": "incorrecto",
-      "score": 0.9,
-      "reason": "El sistema bloqueó la transacción, pero no se cumplen las condiciones de la regla 1 (dos o más señales altas). Solo existe una señal alta potencial (ráfaga anómala por velocidad de 3 transacciones), pero el contexto indica que el comercio y dispositivo son habituales, lo que según la regla 3 debería favorecer la aprobación o, en su defecto, la regla 2 si se considera una señal media."
+      "verdict": null,
+      "score": null,
+      "reason": "ERROR: HTTP 429"
     },
     {
       "id": "EVAL-gray-013",

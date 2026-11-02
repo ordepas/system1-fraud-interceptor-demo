@@ -78,7 +78,7 @@ La corrida anterior, con el id del caso y `isAnomaly` dentro del prompt, daba 81
 ## Límites conocidos
 
 - **12 plantillas, no 60 casos.** Cada clase tiene 4 contextos repetidos 5 veces con distinto titular. Los porcentajes por clase valen sobre 4 escenarios, no sobre 20 muestras independientes.
-- **El dataset tiene correlaciones perfectas.** Todos los fraudes llevan `isAnomaly: true` y ubicación "RU"; el resto, lo contrario. Ya no se envían al modelo, pero deberían diversificarse en un set v2.
+- **El dataset tiene correlaciones perfectas.** Todos los fraudes llevan `isAnomaly: true` y ubicación "RU"; el resto, lo contrario. El id y `isAnomaly` ya no se envían al modelo, pero **la ubicación sí**, y sola separa fraude de no fraude. El 100% en fraudes mide ese atajo, no detección. Diversificar la geografía es la primera tarea del set v2.
 - **El juez no ve el razonamiento.** Gradúa la decisión contra la rúbrica. Para graduar el razonamiento habría que persistir el texto del informe.
 - **No hay calibración humana independiente.** Las etiquetas del set son la referencia; no existe un holdout etiquetado por otra persona.
 - Datos sintéticos y etiquetas puestas por mí: mide acuerdo con mi criterio, no con el mundo.

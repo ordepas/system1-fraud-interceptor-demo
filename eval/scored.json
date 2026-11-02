@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "run_id": "2026-11-02T16:25:44.264Z",
+  "run_id": "2026-11-02T23:12:16.217Z",
   "cases": [
     {
       "id": "EVAL-legit-001",
@@ -11,9 +11,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 289,
-      "gem_ms": 3056,
-      "gem_tokens": "355/428",
+      "jev_ms": 447,
+      "gem_ms": 9676,
+      "gem_tokens": "355/436",
       "jev_fraude": 9
     },
     {
@@ -25,9 +25,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 186,
-      "gem_ms": 2094,
-      "gem_tokens": "349/440",
+      "jev_ms": 213,
+      "gem_ms": 1825,
+      "gem_tokens": "349/434",
       "jev_fraude": 12
     },
     {
@@ -39,9 +39,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 193,
-      "gem_ms": 2399,
-      "gem_tokens": "363/521",
+      "jev_ms": 187,
+      "gem_ms": 2330,
+      "gem_tokens": "363/561",
       "jev_fraude": 12
     },
     {
@@ -53,9 +53,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 283,
-      "gem_ms": 52873,
-      "gem_tokens": "356/442",
+      "jev_ms": 223,
+      "gem_ms": 10155,
+      "gem_tokens": "356/439",
       "jev_fraude": 8
     },
     {
@@ -67,10 +67,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 225,
-      "gem_ms": 2173,
-      "gem_tokens": "353/414",
-      "jev_fraude": 8
+      "jev_ms": 341,
+      "gem_ms": 1798,
+      "gem_tokens": "353/423",
+      "jev_fraude": 7
     },
     {
       "id": "EVAL-legit-006",
@@ -81,9 +81,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 218,
-      "gem_ms": 7447,
-      "gem_tokens": "350/435",
+      "jev_ms": 230,
+      "gem_ms": 2032,
+      "gem_tokens": "350/431",
       "jev_fraude": 12
     },
     {
@@ -95,10 +95,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 249,
-      "gem_ms": 2281,
-      "gem_tokens": "364/479",
-      "jev_fraude": 17
+      "jev_ms": 284,
+      "gem_ms": 2298,
+      "gem_tokens": "364/469",
+      "jev_fraude": 15
     },
     {
       "id": "EVAL-legit-008",
@@ -109,9 +109,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 192,
-      "gem_ms": 3540,
-      "gem_tokens": "357/445",
+      "jev_ms": 231,
+      "gem_ms": 1940,
+      "gem_tokens": "357/414",
       "jev_fraude": 7
     },
     {
@@ -123,9 +123,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 217,
-      "gem_ms": 2542,
-      "gem_tokens": "354/384",
+      "jev_ms": 246,
+      "gem_ms": 1795,
+      "gem_tokens": "354/396",
       "jev_fraude": 7
     },
     {
@@ -137,24 +137,24 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 261,
-      "gem_ms": 6857,
-      "gem_tokens": "348/439",
-      "jev_fraude": 11
+      "jev_ms": 207,
+      "gem_ms": 1941,
+      "gem_tokens": "348/453",
+      "jev_fraude": 10
     },
     {
       "id": "EVAL-legit-011",
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
-      "gem": "SOLICITAR_2FA",
+      "gem": "BLOQUEO_PREVENTIVO",
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 205,
-      "gem_ms": 2557,
-      "gem_tokens": "362/532",
-      "jev_fraude": 14
+      "jev_ms": 213,
+      "gem_ms": 11552,
+      "gem_tokens": "362/540",
+      "jev_fraude": 13
     },
     {
       "id": "EVAL-legit-012",
@@ -166,9 +166,9 @@
       "ok_jev": true,
       "ok_gem": true,
       "jev_ms": 237,
-      "gem_ms": 1762,
-      "gem_tokens": "358/465",
-      "jev_fraude": 9
+      "gem_ms": 2514,
+      "gem_tokens": "358/453",
+      "jev_fraude": 8
     },
     {
       "id": "EVAL-legit-013",
@@ -179,10 +179,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 199,
-      "gem_ms": 2164,
-      "gem_tokens": "355/424",
-      "jev_fraude": 8
+      "jev_ms": 182,
+      "gem_ms": 2467,
+      "gem_tokens": "355/407",
+      "jev_fraude": 9
     },
     {
       "id": "EVAL-legit-014",
@@ -193,10 +193,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 232,
-      "gem_ms": 5569,
+      "jev_ms": 198,
+      "gem_ms": 1787,
       "gem_tokens": "349/434",
-      "jev_fraude": 12
+      "jev_fraude": 13
     },
     {
       "id": "EVAL-legit-015",
@@ -207,10 +207,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 231,
-      "gem_ms": 6358,
-      "gem_tokens": "363/532",
-      "jev_fraude": 10
+      "jev_ms": 225,
+      "gem_ms": 2042,
+      "gem_tokens": "363/527",
+      "jev_fraude": 12
     },
     {
       "id": "EVAL-legit-016",
@@ -221,9 +221,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 227,
-      "gem_ms": 1933,
-      "gem_tokens": "356/446",
+      "jev_ms": 186,
+      "gem_ms": 1917,
+      "gem_tokens": "356/460",
       "jev_fraude": 8
     },
     {
@@ -235,9 +235,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 217,
-      "gem_ms": 1925,
-      "gem_tokens": "353/425",
+      "jev_ms": 184,
+      "gem_ms": 3589,
+      "gem_tokens": "353/415",
       "jev_fraude": 8
     },
     {
@@ -249,24 +249,24 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 217,
-      "gem_ms": 11192,
-      "gem_tokens": "350/441",
-      "jev_fraude": 13
+      "jev_ms": 315,
+      "gem_ms": 1918,
+      "gem_tokens": "350/452",
+      "jev_fraude": 12
     },
     {
       "id": "EVAL-legit-019",
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
-      "gem": "SOLICITAR_2FA",
+      "gem": "BLOQUEO_PREVENTIVO",
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 274,
-      "gem_ms": 2403,
-      "gem_tokens": "364/502",
-      "jev_fraude": 15
+      "jev_ms": 276,
+      "gem_ms": 1889,
+      "gem_tokens": "364/474",
+      "jev_fraude": 18
     },
     {
       "id": "EVAL-legit-020",
@@ -277,9 +277,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 268,
-      "gem_ms": 2346,
-      "gem_tokens": "357/442",
+      "jev_ms": 194,
+      "gem_ms": 1846,
+      "gem_tokens": "357/406",
       "jev_fraude": 8
     },
     {
@@ -291,10 +291,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 194,
-      "gem_ms": 1923,
-      "gem_tokens": "364/494",
-      "jev_fraude": 90
+      "jev_ms": 277,
+      "gem_ms": 1955,
+      "gem_tokens": "364/465",
+      "jev_fraude": 89
     },
     {
       "id": "EVAL-fraud-002",
@@ -305,10 +305,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 251,
-      "gem_ms": 4781,
-      "gem_tokens": "366/447",
-      "jev_fraude": 78
+      "jev_ms": 216,
+      "gem_ms": 1951,
+      "gem_tokens": "366/485",
+      "jev_fraude": 79
     },
     {
       "id": "EVAL-fraud-003",
@@ -319,9 +319,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 286,
-      "gem_ms": 1983,
-      "gem_tokens": "354/471",
+      "jev_ms": 218,
+      "gem_ms": 1798,
+      "gem_tokens": "354/457",
       "jev_fraude": 82
     },
     {
@@ -333,10 +333,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 213,
-      "gem_ms": 2565,
-      "gem_tokens": "361/433",
-      "jev_fraude": 84
+      "jev_ms": 194,
+      "gem_ms": 1847,
+      "gem_tokens": "361/427",
+      "jev_fraude": 86
     },
     {
       "id": "EVAL-fraud-005",
@@ -347,9 +347,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 240,
-      "gem_ms": 5301,
-      "gem_tokens": "363/525",
+      "jev_ms": 214,
+      "gem_ms": 2098,
+      "gem_tokens": "363/531",
       "jev_fraude": 90
     },
     {
@@ -357,14 +357,14 @@
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
-      "gem": "BLOQUEO_PREVENTIVO",
-      "gem_source": "gemini-3.1-flash-lite",
+      "gem": null,
+      "gem_source": "error",
       "ok_jev": true,
-      "ok_gem": true,
-      "jev_ms": 224,
-      "gem_ms": 6435,
-      "gem_tokens": "367/442",
-      "jev_fraude": 78
+      "ok_gem": false,
+      "jev_ms": 192,
+      "gem_ms": null,
+      "gem_tokens": "",
+      "jev_fraude": 77
     },
     {
       "id": "EVAL-fraud-007",
@@ -375,10 +375,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 323,
-      "gem_ms": 8224,
-      "gem_tokens": "355/516",
-      "jev_fraude": 82
+      "jev_ms": 243,
+      "gem_ms": 2196,
+      "gem_tokens": "355/467",
+      "jev_fraude": 81
     },
     {
       "id": "EVAL-fraud-008",
@@ -389,10 +389,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 226,
-      "gem_ms": 28917,
-      "gem_tokens": "362/422",
-      "jev_fraude": 88
+      "jev_ms": 210,
+      "gem_ms": 2190,
+      "gem_tokens": "362/495",
+      "jev_fraude": 87
     },
     {
       "id": "EVAL-fraud-009",
@@ -403,9 +403,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 237,
-      "gem_ms": 4453,
-      "gem_tokens": "363/528",
+      "jev_ms": 204,
+      "gem_ms": 2626,
+      "gem_tokens": "363/519",
       "jev_fraude": 90
     },
     {
@@ -417,10 +417,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 220,
-      "gem_ms": 44101,
-      "gem_tokens": "366/436",
-      "jev_fraude": 79
+      "jev_ms": 176,
+      "gem_ms": 1945,
+      "gem_tokens": "366/455",
+      "jev_fraude": 80
     },
     {
       "id": "EVAL-fraud-011",
@@ -431,10 +431,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 228,
-      "gem_ms": 5389,
-      "gem_tokens": "354/488",
-      "jev_fraude": 80
+      "jev_ms": 229,
+      "gem_ms": 1777,
+      "gem_tokens": "354/443",
+      "jev_fraude": 81
     },
     {
       "id": "EVAL-fraud-012",
@@ -445,10 +445,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 295,
-      "gem_ms": 2252,
-      "gem_tokens": "363/476",
-      "jev_fraude": 87
+      "jev_ms": 193,
+      "gem_ms": 1859,
+      "gem_tokens": "363/456",
+      "jev_fraude": 85
     },
     {
       "id": "EVAL-fraud-013",
@@ -459,9 +459,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 259,
-      "gem_ms": 2168,
-      "gem_tokens": "364/479",
+      "jev_ms": 191,
+      "gem_ms": 2252,
+      "gem_tokens": "364/476",
       "jev_fraude": 90
     },
     {
@@ -473,10 +473,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 208,
-      "gem_ms": 8885,
-      "gem_tokens": "366/501",
-      "jev_fraude": 79
+      "jev_ms": 213,
+      "gem_ms": 2108,
+      "gem_tokens": "366/464",
+      "jev_fraude": 78
     },
     {
       "id": "EVAL-fraud-015",
@@ -487,9 +487,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 262,
-      "gem_ms": 93626,
-      "gem_tokens": "354/472",
+      "jev_ms": 225,
+      "gem_ms": 1931,
+      "gem_tokens": "354/484",
       "jev_fraude": 81
     },
     {
@@ -501,10 +501,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 292,
-      "gem_ms": 113656,
-      "gem_tokens": "361/433",
-      "jev_fraude": 86
+      "jev_ms": 211,
+      "gem_ms": 1923,
+      "gem_tokens": "361/463",
+      "jev_fraude": 85
     },
     {
       "id": "EVAL-fraud-017",
@@ -515,9 +515,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 233,
-      "gem_ms": 9470,
-      "gem_tokens": "363/510",
+      "jev_ms": 183,
+      "gem_ms": 2225,
+      "gem_tokens": "363/528",
       "jev_fraude": 90
     },
     {
@@ -529,10 +529,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 276,
-      "gem_ms": 25764,
-      "gem_tokens": "367/478",
-      "jev_fraude": 80
+      "jev_ms": 226,
+      "gem_ms": 22541,
+      "gem_tokens": "367/523",
+      "jev_fraude": 79
     },
     {
       "id": "EVAL-fraud-019",
@@ -543,9 +543,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 288,
-      "gem_ms": 12652,
-      "gem_tokens": "355/505",
+      "jev_ms": 220,
+      "gem_ms": 2094,
+      "gem_tokens": "355/462",
       "jev_fraude": 81
     },
     {
@@ -557,10 +557,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": true,
-      "jev_ms": 239,
-      "gem_ms": 4705,
-      "gem_tokens": "362/450",
-      "jev_fraude": 85
+      "jev_ms": 320,
+      "gem_ms": 2211,
+      "gem_tokens": "362/470",
+      "jev_fraude": 88
     },
     {
       "id": "EVAL-gray-001",
@@ -571,10 +571,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 227,
-      "gem_ms": 2098,
-      "gem_tokens": "349/499",
-      "jev_fraude": 33
+      "jev_ms": 205,
+      "gem_ms": 1856,
+      "gem_tokens": "349/482",
+      "jev_fraude": 34
     },
     {
       "id": "EVAL-gray-002",
@@ -585,10 +585,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 177,
-      "gem_ms": 3463,
-      "gem_tokens": "354/451",
-      "jev_fraude": 50
+      "jev_ms": 203,
+      "gem_ms": 1927,
+      "gem_tokens": "354/480",
+      "jev_fraude": 47
     },
     {
       "id": "EVAL-gray-003",
@@ -599,10 +599,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": false,
       "ok_gem": false,
-      "jev_ms": 205,
-      "gem_ms": 4214,
-      "gem_tokens": "355/437",
-      "jev_fraude": 55
+      "jev_ms": 246,
+      "gem_ms": 1887,
+      "gem_tokens": "355/441",
+      "jev_fraude": 56
     },
     {
       "id": "EVAL-gray-004",
@@ -613,10 +613,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 250,
-      "gem_ms": 22926,
-      "gem_tokens": "347/488",
-      "jev_fraude": 19
+      "jev_ms": 238,
+      "gem_ms": 2168,
+      "gem_tokens": "347/519",
+      "jev_fraude": 20
     },
     {
       "id": "EVAL-gray-005",
@@ -627,10 +627,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 231,
-      "gem_ms": 2396,
-      "gem_tokens": "347/486",
-      "jev_fraude": 35
+      "jev_ms": 243,
+      "gem_ms": 1958,
+      "gem_tokens": "347/471",
+      "jev_fraude": 32
     },
     {
       "id": "EVAL-gray-006",
@@ -641,10 +641,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 187,
-      "gem_ms": 2029,
-      "gem_tokens": "355/467",
-      "jev_fraude": 52
+      "jev_ms": 213,
+      "gem_ms": 2055,
+      "gem_tokens": "355/489",
+      "jev_fraude": 51
     },
     {
       "id": "EVAL-gray-007",
@@ -655,10 +655,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": false,
       "ok_gem": false,
-      "jev_ms": 233,
-      "gem_ms": 2457,
-      "gem_tokens": "356/469",
-      "jev_fraude": 61
+      "jev_ms": 227,
+      "gem_ms": 1852,
+      "gem_tokens": "356/455",
+      "jev_fraude": 62
     },
     {
       "id": "EVAL-gray-008",
@@ -669,9 +669,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 217,
-      "gem_ms": 3103,
-      "gem_tokens": "348/479",
+      "jev_ms": 250,
+      "gem_ms": 1845,
+      "gem_tokens": "348/445",
       "jev_fraude": 22
     },
     {
@@ -683,10 +683,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 203,
-      "gem_ms": 1984,
-      "gem_tokens": "348/492",
-      "jev_fraude": 26
+      "jev_ms": 224,
+      "gem_ms": 1775,
+      "gem_tokens": "348/429",
+      "jev_fraude": 31
     },
     {
       "id": "EVAL-gray-010",
@@ -697,10 +697,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 204,
-      "gem_ms": 59621,
-      "gem_tokens": "353/485",
-      "jev_fraude": 54
+      "jev_ms": 276,
+      "gem_ms": 2229,
+      "gem_tokens": "353/496",
+      "jev_fraude": 51
     },
     {
       "id": "EVAL-gray-011",
@@ -711,10 +711,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": false,
       "ok_gem": false,
-      "jev_ms": 283,
-      "gem_ms": 7778,
-      "gem_tokens": "354/476",
-      "jev_fraude": 57
+      "jev_ms": 274,
+      "gem_ms": 1878,
+      "gem_tokens": "354/459",
+      "jev_fraude": 55
     },
     {
       "id": "EVAL-gray-012",
@@ -725,10 +725,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 224,
-      "gem_ms": 2183,
-      "gem_tokens": "349/495",
-      "jev_fraude": 25
+      "jev_ms": 246,
+      "gem_ms": 1957,
+      "gem_tokens": "349/467",
+      "jev_fraude": 24
     },
     {
       "id": "EVAL-gray-013",
@@ -739,10 +739,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 264,
-      "gem_ms": 3047,
-      "gem_tokens": "349/465",
-      "jev_fraude": 35
+      "jev_ms": 269,
+      "gem_ms": 1997,
+      "gem_tokens": "349/443",
+      "jev_fraude": 34
     },
     {
       "id": "EVAL-gray-014",
@@ -753,24 +753,24 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 259,
-      "gem_ms": 38904,
-      "gem_tokens": "354/478",
-      "jev_fraude": 48
+      "jev_ms": 257,
+      "gem_ms": 1825,
+      "gem_tokens": "354/463",
+      "jev_fraude": 47
     },
     {
       "id": "EVAL-gray-015",
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "BLOQUEO_PREVENTIVO",
-      "gem": "BLOQUEO_PREVENTIVO",
+      "gem": "SOLICITAR_2FA",
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": false,
-      "ok_gem": false,
-      "jev_ms": 292,
-      "gem_ms": 2145,
-      "gem_tokens": "355/473",
-      "jev_fraude": 52
+      "ok_gem": true,
+      "jev_ms": 311,
+      "gem_ms": 15530,
+      "gem_tokens": "355/469",
+      "jev_fraude": 53
     },
     {
       "id": "EVAL-gray-016",
@@ -781,9 +781,9 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 235,
-      "gem_ms": 5817,
-      "gem_tokens": "347/488",
+      "jev_ms": 236,
+      "gem_ms": 2284,
+      "gem_tokens": "347/565",
       "jev_fraude": 18
     },
     {
@@ -791,14 +791,14 @@
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
-      "gem": "BLOQUEO_PREVENTIVO",
-      "gem_source": "gemini-3.1-flash-lite",
+      "gem": null,
+      "gem_source": "error",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 251,
-      "gem_ms": 17769,
-      "gem_tokens": "347/468",
-      "jev_fraude": 34
+      "jev_ms": 245,
+      "gem_ms": null,
+      "gem_tokens": "",
+      "jev_fraude": 35
     },
     {
       "id": "EVAL-gray-018",
@@ -809,10 +809,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 274,
-      "gem_ms": 14894,
-      "gem_tokens": "355/485",
-      "jev_fraude": 53
+      "jev_ms": 217,
+      "gem_ms": 2030,
+      "gem_tokens": "355/454",
+      "jev_fraude": 54
     },
     {
       "id": "EVAL-gray-019",
@@ -823,10 +823,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": false,
       "ok_gem": false,
-      "jev_ms": 255,
-      "gem_ms": 5185,
-      "gem_tokens": "356/467",
-      "jev_fraude": 64
+      "jev_ms": 182,
+      "gem_ms": 2717,
+      "gem_tokens": "356/462",
+      "jev_fraude": 65
     },
     {
       "id": "EVAL-gray-020",
@@ -837,10 +837,10 @@
       "gem_source": "gemini-3.1-flash-lite",
       "ok_jev": true,
       "ok_gem": false,
-      "jev_ms": 265,
-      "gem_ms": 23266,
-      "gem_tokens": "348/511",
-      "jev_fraude": 21
+      "jev_ms": 215,
+      "gem_ms": 1950,
+      "gem_tokens": "348/496",
+      "jev_fraude": 19
     }
   ]
 }
