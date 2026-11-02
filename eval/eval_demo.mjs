@@ -82,6 +82,16 @@ for (const cls of ['legit', 'fraud', 'gray']) {
   for (let i = 0; i < PER_CLASS; i++) cases.push(build(cls, i));
 }
 
+// --dump-set: materializa el golden set sin llamar a ninguna API
+if (process.argv.includes('--dump-set')) {
+  const set = cases.map((c) => ({
+    id: c.transaction.id, class: c.classKey, expected: c.expected, transaction: c.transaction,
+  }));
+  writeFileSync('golden_set.json', JSON.stringify({ version: 1, cases: set }, null, 2) + '\n', 'utf8');
+  console.log(`golden_set.json: ${set.length} casos`);
+  process.exit(0);
+}
+
 const JEV_URL = process.env.JEV_API_URL || 'https://api.typesafe.ai/v1/systemone';
 const JEV_KEY = (process.env.JEV_API_KEY || process.env.TYPESAFE_API_KEY || '').trim();
 const GEMINI_KEY = (process.env.GEMINI_EVAL_KEY || '').trim();
