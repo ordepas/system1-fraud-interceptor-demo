@@ -9,6 +9,7 @@ const arg = (k, d) => {
 };
 
 const system = arg('system', 'jev');
+const baselineSystem = arg('baseline-system', system);
 const baselinePath = arg('baseline', 'baseline.json');
 const minAccuracy = Number(arg('min-accuracy', 85));
 const maxP95 = Number(arg('max-p95', 800));
@@ -18,9 +19,9 @@ const cand = JSON.parse(fs.readFileSync('metrics.json', 'utf8'));
 const base = JSON.parse(fs.readFileSync(baselinePath, 'utf8'));
 
 const c = cand.systems?.[system];
-const b = base.systems?.[system];
+const b = base.systems?.[baselineSystem];
 if (!c || !b) {
-  console.error(`No hay métricas para el sistema "${system}" en uno de los archivos.`);
+  console.error(`No hay métricas para "${system}" (candidato) o "${baselineSystem}" (baseline).`);
   process.exit(1);
 }
 
@@ -41,7 +42,7 @@ if (cand.systems?.judge) {
   add('kappa del juez', j.kappa >= minKappa, `${j.kappa} (mínimo ${minKappa})`);
 }
 
-console.log(`GATE · ${system} · candidato ${cand.generated_at ?? 'sin fecha'} vs baseline`);
+console.log(`GATE · ${system} vs baseline ${baselineSystem} · ${cand.generated_at ?? 'sin fecha'}`);
 console.log('─'.repeat(58));
 for (const r of rules) console.log(`  ${r.ok ? 'PASA' : 'FALLA'}  ${r.name.padEnd(22)} ${r.detail}`);
 const failed = rules.filter((r) => !r.ok).length;

@@ -12,6 +12,7 @@ Mide si la **aplicación** decide bien, no si el modelo es bueno. Sesenta casos 
 | 03 Grader | `grader.mjs` (código) y `judge.mjs` (juez LLM con la rúbrica) |
 | 04 Metrics | `metrics.mjs` → `metrics.json` |
 | 05 Gate | `gate.mjs` → baseline vs candidato |
+| ciclo | `promote.mjs` → fallo adjudicado al golden set |
 
 ## Flujo
 
@@ -25,7 +26,34 @@ cp metrics.json baseline.json              # primera corrida: queda como referen
 node gate.mjs --system jev                 # compara contra baseline; exit 1 si falla
 ```
 
-Para correr contra el demo hace falta levantarlo en `127.0.0.1:3000` y tener las claves del `.env.example`. `--dump-set`, `grader`, `metrics` y `gate` no llaman a ningún modelo.
+Para correr contra el demo hace falta levantarlo en `127.0.0.1:3000` y tener las claves del `.env.example`. `--dump-set`, `grader`, `metrics`, `gate` y `promote` no llaman a ningún modelo.
+
+## Cerrar el ciclo
+
+Un fallo real se adjudica a mano y entra al set con versión nueva:
+
+```bash
+node promote.mjs --id EVAL-gray-004 --decision SOLICITAR_2FA --note "revisado 2026-11-02"
+# golden set v2: 61 casos
+#   + EVAL-gray-004-v2  (gris)  SOLICITAR_2FA -> SOLICITAR_2FA  [sin cambio de etiqueta]
+```
+
+Si la etiqueta cambia, el caso entra como `id-vN` y el anterior queda en `supersedes`: las corridas viejas dejan de ser comparables y hay que regenerar el baseline.
+
+## El gate rechazando un candidato
+
+```bash
+node gate.mjs --system gemini --baseline-system jev --baseline baseline.jev.json
+```
+
+```
+  FALLA  accuracy mínima        81.48% (mínimo 85%)
+  FALLA  p95 de latencia        11078 ms (máximo 800 ms)
+  FALLA  caída contra baseline  81.48% vs 91.67% (máximo 2 puntos)
+GATE CERRADO · 3 regla(s) fallan
+```
+
+Eso demuestra que el gate filtra. No demuestra que exista un candidato propio que lo haya pasado: hasta hoy el único sistema que lo pasa es el que define el baseline.
 
 ## Reglas del gate
 
