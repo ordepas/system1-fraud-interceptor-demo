@@ -37,8 +37,8 @@ add('versión del dataset', cand.set_version != null && cand.set_version === bas
   `candidato v${cand.set_version ?? '?'} vs baseline v${base.set_version ?? '?'}`);
 
 // 2. no es la misma corrida
-add('corrida independiente', cand.generated_at !== base.generated_at,
-  cand.generated_at === base.generated_at ? 'candidato y baseline son la misma corrida' : 'ok');
+add('corrida independiente', cand.run_id != null && cand.run_id !== base.run_id,
+  cand.run_id == null ? 'sin run_id' : cand.run_id === base.run_id ? 'candidato y baseline son la misma corrida' : 'ok');
 
 // 3. cobertura
 const expectedCases = fs.existsSync('golden_set.json')

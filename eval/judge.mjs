@@ -98,7 +98,8 @@ async function judge(c) {
 }
 
 const rows = [];
-const CONCURRENCY = 2;
+const CONCURRENCY = 1;
+const DELAY = 4000;
 for (let i = 0; i < cases.length; i += CONCURRENCY) {
   const batch = cases.slice(i, i + CONCURRENCY);
   const verdicts = await Promise.all(batch.map((c) => judge(c)));

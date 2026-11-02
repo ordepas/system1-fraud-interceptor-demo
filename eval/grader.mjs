@@ -18,6 +18,7 @@ function parseCSV(text) {
   return rows;
 }
 
+const RUN_ID = fs.statSync('results.csv').mtime.toISOString();
 const set = JSON.parse(fs.readFileSync('golden_set.json', 'utf8'));
 const byId = new Map(set.cases.map((c) => [c.id, c]));
 const superseded = new Set(set.cases.filter((c) => c.superseded_by).map((c) => c.id));
@@ -53,7 +54,7 @@ const scored = rows.filter((r) => r.length > 1 && r[ix.id]).filter((r) => {
   };
 });
 
-fs.writeFileSync('scored.json', JSON.stringify({ version: 1, cases: scored }, null, 2) + '\n', 'utf8');
+fs.writeFileSync('scored.json', JSON.stringify({ version: 1, run_id: RUN_ID, cases: scored }, null, 2) + '\n', 'utf8');
 
 const hits = (sys) => scored.filter((s) => s[`ok_${sys}`] === true).length;
 const base = (sys) => scored.filter((s) => s[`ok_${sys}`] !== null).length;

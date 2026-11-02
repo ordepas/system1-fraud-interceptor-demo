@@ -2,7 +2,9 @@
 // Acierto por clase, matriz de confusión, p50/p95, dispersión y acuerdo del juez.
 import fs from 'node:fs';
 
-const scored = JSON.parse(fs.readFileSync('scored.json', 'utf8')).cases;
+const scoredFile = JSON.parse(fs.readFileSync('scored.json', 'utf8'));
+const scored = scoredFile.cases;
+const RUN_ID = scoredFile.run_id ?? null;
 const setVersion = fs.existsSync('golden_set.json')
   ? JSON.parse(fs.readFileSync('golden_set.json', 'utf8')).version
   : null;
@@ -104,6 +106,7 @@ for (const c of classes) {
 const out = {
   version: 2,
   set_version: setVersion,
+  run_id: RUN_ID,
   generated_at: new Date().toISOString(),
   cases: scored.length,
   systems,

@@ -2,7 +2,7 @@
 
 Mide si la **aplicación** decide bien, no si el modelo es bueno.
 
-> **Los artefactos grabados (`results.csv`, `metrics.json`, `baseline.json`) son de la corrida del 2026-10-31, anterior a la corrección de fugas.** En esa versión el id del caso (`EVAL-fraud-001`) y el campo `isAnomaly` viajaban dentro del prompt de Gemini, así que sus números no son válidos para publicar. El código ya está corregido; hay que regenerar la corrida y el baseline.
+Corrida de referencia: **2026-11-02**, posterior a la corrección de fugas (el id del caso y `isAnomaly` ya no viajan en el prompt).
 
 ## Las seis piezas y dónde viven
 
@@ -57,6 +57,23 @@ node promote.mjs --id EVAL-gray-004 --decision SOLICITAR_2FA --note "revisado 20
 ```
 
 El caso promovido se ejecuta en la siguiente corrida porque el runner lee el set. El grader omite los casos marcados como `superseded_by`. Toda promoción sube la versión y obliga a regenerar el baseline.
+
+## Resultado de la corrida de referencia (2026-11-02)
+
+| | Jev | Gemini |
+|---|---|---|
+| Acierto global | 91,7% (55/60) | 58,3% (35/60) |
+| Legítimos | 100% | 75% |
+| Fraudes | 100% | 100% |
+| Ambiguos | 75% | 0% |
+| Latencia p50 / p95 | 233 / 292 ms | 4214 / 52873 ms |
+| Contingencias | — | 0 |
+
+Juez sobre 30 casos estratificados: 93,3% de acuerdo con la etiqueta y kappa de Cohen 0,793.
+
+Dispersión de la probabilidad de fraude de Jev: 2,8 puntos en legítimos, 4,4 en fraudes y 15 en ambiguos.
+
+La corrida anterior, con el id del caso y `isAnomaly` dentro del prompt, daba 81,5% a Gemini. Esa diferencia era la fuga, no el modelo.
 
 ## Límites conocidos
 

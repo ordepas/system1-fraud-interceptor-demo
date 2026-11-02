@@ -109,18 +109,30 @@ if (existsSync(SET_PATH) && !process.argv.includes('--regenerate')) {
   cases = set.cases.map((c) => ({ classKey: c.class, expected: c.expected, transaction: c.transaction }));
   console.log(`golden set v${SET_VERSION}: ${cases.length} casos`);
 }
+const LIMIT = Number(arg('limit', 0));
+if (LIMIT > 0) cases = cases.slice(0, LIMIT);
 
 const JEV_URL = process.env.JEV_API_URL || 'https://api.typesafe.ai/v1/systemone';
 const JEV_KEY = (process.env.JEV_API_KEY || process.env.TYPESAFE_API_KEY || '').trim();
 const GEMINI_KEY = (process.env.GEMINI_EVAL_KEY || '').trim();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+const CALL_TIMEOUT_MS = Number(arg('timeout', 180000));
+const DELAY_MS = Number(arg('delay', 0));
+
 async function post(path, body) {
-  const r = await fetch(`${BASE}${path}`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
-  });
-  const j = await r.json().catch(() => ({}));
-  return { ok: r.ok, json: j };
+  // un caso lento no puede tumbar la corrida: se registra como sin respuesta
+  try {
+    const r = await fetch(`${BASE}${path}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+      signal: AbortSignal.timeout(CALL_TIMEOUT_MS),
+    });
+    const j = await r.json().catch(() => ({}));
+    return { ok: r.ok, json: j };
+  } catch (e) {
+    const reason = e.name === 'TimeoutError' ? `timeout ${CALL_TIMEOUT_MS}ms` : e.message;
+    return { ok: false, json: { error: reason } };
+  }
 }
 
 const rows = [];

@@ -1,7 +1,8 @@
 {
   "version": 2,
   "set_version": 1,
-  "generated_at": "2026-11-02T04:36:21.121Z",
+  "run_id": "2026-11-02T16:25:44.264Z",
+  "generated_at": "2026-11-02T17:27:33.557Z",
   "cases": 60,
   "systems": {
     "jev": {
@@ -40,29 +41,29 @@
           "BLOQUEO_PREVENTIVO": 5
         }
       },
-      "p50_ms": 260,
-      "p95_ms": 329,
+      "p50_ms": 233,
+      "p95_ms": 292,
       "tokens_total": null
     },
     "gemini": {
-      "base": 54,
-      "hits": 44,
-      "accuracy": 81.48,
+      "base": 60,
+      "hits": 35,
+      "accuracy": 58.33,
       "by_class": {
         "legítimo": {
-          "base": 18,
-          "hits": 18,
-          "accuracy": 100
+          "base": 20,
+          "hits": 15,
+          "accuracy": 75
         },
         "fraude": {
-          "base": 19,
-          "hits": 19,
+          "base": 20,
+          "hits": 20,
           "accuracy": 100
         },
         "gris": {
-          "base": 17,
-          "hits": 7,
-          "accuracy": 41.18
+          "base": 20,
+          "hits": 0,
+          "accuracy": 0
         }
       },
       "confusion": {
@@ -70,36 +71,45 @@
         "fraude": {},
         "gris": {},
         "APROBAR_DIRECTO": {
-          "APROBAR_DIRECTO": 18
+          "APROBAR_DIRECTO": 15,
+          "SOLICITAR_2FA": 5
         },
         "BLOQUEO_PREVENTIVO": {
-          "BLOQUEO_PREVENTIVO": 19
+          "BLOQUEO_PREVENTIVO": 20
         },
         "SOLICITAR_2FA": {
-          "BLOQUEO_PREVENTIVO": 10,
-          "SOLICITAR_2FA": 7
+          "BLOQUEO_PREVENTIVO": 20
         }
       },
-      "p50_ms": 2653,
-      "p95_ms": 11078,
-      "tokens_total": 45527
+      "p50_ms": 4214,
+      "p95_ms": 52873,
+      "tokens_total": 49507
+    },
+    "judge": {
+      "system": "jev",
+      "base": 30,
+      "hits": 28,
+      "accuracy": 93.33,
+      "kappa": 0.793,
+      "model": "gemini-3.1-flash-lite",
+      "cases_total": 30
     }
   },
   "spread": {
     "legítimo": {
       "n": 20,
-      "mean": 10.5,
-      "sd": 3.1
+      "mean": 10.4,
+      "sd": 2.8
     },
     "fraude": {
       "n": 20,
-      "mean": 84.2,
+      "mean": 84,
       "sd": 4.4
     },
     "gris": {
       "n": 20,
-      "mean": 41.3,
-      "sd": 15.1
+      "mean": 40.7,
+      "sd": 15
     }
   }
 }
