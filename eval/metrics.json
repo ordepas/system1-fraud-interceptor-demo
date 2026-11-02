@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-11-02T03:23:51.731Z",
+  "generated_at": "2026-11-02T03:46:51.258Z",
   "cases": 60,
   "systems": {
     "jev": {
@@ -52,6 +52,31 @@
       "p50_ms": 2653,
       "p95_ms": 11078,
       "tokens_total": 45527
+    },
+    "judge": {
+      "base": 29,
+      "hits": 27,
+      "accuracy": 93.1,
+      "by_class": {
+        "legítimo": {
+          "base": 10,
+          "hits": 10,
+          "accuracy": 100
+        },
+        "fraude": {
+          "base": 9,
+          "hits": 9,
+          "accuracy": 100
+        },
+        "gris": {
+          "base": 10,
+          "hits": 8,
+          "accuracy": 80
+        }
+      },
+      "kappa": 0.896,
+      "model": "gemini-3.1-flash-lite",
+      "cases_total": 30
     }
   },
   "spread": {

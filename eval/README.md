@@ -53,6 +53,8 @@ Son configurables: `node gate.mjs --min-accuracy 90 --max-p95 500 --max-drop 1`.
 
 Dispersión de la probabilidad de fraude de Jev: 3,1 puntos en legítimos, 4,4 en fraudes y 15,1 en ambiguos.
 
+**Juez LLM** (`judge.mjs`, muestra estratificada de 30: 10 por clase): 93,1% de acuerdo con las etiquetas (27/29 con respuesta) y kappa de Cohen 0,896. Un caso quedó sin respuesta por límite de cuota. Sus dos desacuerdos están en la zona gris: aprobó dos casos que la rúbrica manda a 2FA.
+
 Gemini dejó 6 casos sin respuesta (contingencia del demo), por eso su base es 54 y no 60.
 
 ## Límites

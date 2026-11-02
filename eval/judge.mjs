@@ -20,7 +20,16 @@ const set = JSON.parse(fs.readFileSync('golden_set.json', 'utf8')).cases;
 const only = arg('only', 'all');
 let cases = only === 'all' ? set : set.filter((c) => c.class === 'gris');
 const sample = Number(arg('sample', 30));
-if (sample > 0) cases = cases.slice(0, sample);
+if (sample > 0) {
+  if (only === 'all') {
+    // estratificado: mismas porciones de cada clase, si no la muestra cae en los casos fáciles
+    const classes = ['legítimo', 'fraude', 'gris'];
+    const per = Math.ceil(sample / classes.length);
+    cases = classes.flatMap((c) => cases.filter((x) => x.class === c).slice(0, per)).slice(0, sample);
+  } else {
+    cases = cases.slice(0, sample);
+  }
+}
 
 const RUBRIC = `Eres un juez que aplica una rúbrica fija, no tu criterio. Decide entre tres salidas:
 APROBAR_DIRECTO, SOLICITAR_2FA o BLOQUEO_PREVENTIVO.
@@ -47,7 +56,7 @@ async function judge(c) {
     contents: [{ parts: [{ text: `${RUBRIC}\n\nCASO ${c.id}\n${caseText(c)}` }] }],
     generationConfig: { responseMimeType: 'application/json', temperature: 0 },
   };
-  for (let attempt = 0; attempt < 2; attempt++) {
+  for (let attempt = 0; attempt < 3; attempt++) {
     try {
       const res = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${KEY}`,
@@ -59,18 +68,22 @@ async function judge(c) {
       const out = JSON.parse(text);
       return { decision: out.decision ?? null, score: Number(out.score) || null, reason: String(out.reason ?? '') };
     } catch (e) {
-      if (attempt === 1) return { decision: null, score: null, reason: `ERROR: ${e.message}` };
-      await sleep(1500);
+      if (attempt === 2) return { decision: null, score: null, reason: `ERROR: ${e.message}` };
+      await sleep(2000 * (attempt + 1));
     }
   }
 }
 
 const rows = [];
-for (const [i, c] of cases.entries()) {
-  const v = await judge(c);
-  rows.push({ id: c.id, class: c.class, expected: c.expected, ...v, ok: v.decision === c.expected });
-  process.stdout.write(`\r${i + 1}/${cases.length} ${c.id}      `);
-  await sleep(300);
+const CONCURRENCY = 2;
+for (let i = 0; i < cases.length; i += CONCURRENCY) {
+  const batch = cases.slice(i, i + CONCURRENCY);
+  const verdicts = await Promise.all(batch.map((c) => judge(c)));
+  batch.forEach((c, k) => {
+    const v = verdicts[k];
+    rows.push({ id: c.id, class: c.class, expected: c.expected, ...v, ok: v.decision === c.expected });
+  });
+  process.stdout.write(`\r${Math.min(i + CONCURRENCY, cases.length)}/${cases.length}      `);
 }
 process.stdout.write('\n');
 
