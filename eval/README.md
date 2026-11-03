@@ -82,3 +82,16 @@ La corrida anterior, con el id del caso y `isAnomaly` dentro del prompt, daba 81
 - **El juez no ve el razonamiento.** Gradúa la decisión contra la rúbrica. Para graduar el razonamiento habría que persistir el texto del informe.
 - **No hay calibración humana independiente.** Las etiquetas del set son la referencia; no existe un holdout etiquetado por otra persona.
 - Datos sintéticos y etiquetas puestas por mí: mide acuerdo con mi criterio, no con el mundo.
+
+## Estabilidad (5 repeticiones por caso)
+
+`results_stability.csv` y `metrics_stability.json`: 12 escenarios (4 por clase) corridos cinco veces cada uno con el mismo input.
+
+| | Jev | Gemini |
+|---|---|---|
+| Casos cuya decisión cambia | **0 de 12** | **3 de 12** |
+| Acierto | 91,7% | 56,1% (32/57) |
+
+Jev decide igual las cinco veces. Gemini cambia en uno de cada cuatro escenarios: su porcentaje es un promedio de decisiones que oscilan, no una decisión estable.
+
+Degradación: 49 llamadas respondieron a la primera, 6 necesitaron reintento y 5 nunca devolvieron respuesta del modelo (`gem_intentos` en el CSV).

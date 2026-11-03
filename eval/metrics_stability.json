@@ -1,0 +1,137 @@
+{
+  "version": 2,
+  "set_version": 1,
+  "run_id": "2026-11-03T02:04:50.031Z",
+  "generated_at": "2026-11-03T02:04:59.940Z",
+  "cases": 60,
+  "systems": {
+    "jev": {
+      "base": 60,
+      "hits": 55,
+      "accuracy": 91.67,
+      "by_class": {
+        "legítimo": {
+          "base": 20,
+          "hits": 20,
+          "accuracy": 100
+        },
+        "fraude": {
+          "base": 20,
+          "hits": 20,
+          "accuracy": 100
+        },
+        "gris": {
+          "base": 20,
+          "hits": 15,
+          "accuracy": 75
+        }
+      },
+      "confusion": {
+        "legítimo": {},
+        "fraude": {},
+        "gris": {},
+        "APROBAR_DIRECTO": {
+          "APROBAR_DIRECTO": 20
+        },
+        "BLOQUEO_PREVENTIVO": {
+          "BLOQUEO_PREVENTIVO": 20
+        },
+        "SOLICITAR_2FA": {
+          "SOLICITAR_2FA": 15,
+          "BLOQUEO_PREVENTIVO": 5
+        }
+      },
+      "p50_ms": 256,
+      "p95_ms": 343,
+      "retries": null,
+      "tokens_total": null
+    },
+    "gemini": {
+      "base": 57,
+      "hits": 32,
+      "accuracy": 56.14,
+      "by_class": {
+        "legítimo": {
+          "base": 20,
+          "hits": 15,
+          "accuracy": 75
+        },
+        "fraude": {
+          "base": 17,
+          "hits": 15,
+          "accuracy": 88.24
+        },
+        "gris": {
+          "base": 20,
+          "hits": 2,
+          "accuracy": 10
+        }
+      },
+      "confusion": {
+        "legítimo": {},
+        "fraude": {},
+        "gris": {},
+        "APROBAR_DIRECTO": {
+          "APROBAR_DIRECTO": 15,
+          "SOLICITAR_2FA": 3,
+          "BLOQUEO_PREVENTIVO": 2
+        },
+        "BLOQUEO_PREVENTIVO": {
+          "BLOQUEO_PREVENTIVO": 15,
+          "sin_respuesta": 2
+        },
+        "SOLICITAR_2FA": {
+          "BLOQUEO_PREVENTIVO": 18,
+          "SOLICITAR_2FA": 2
+        }
+      },
+      "p50_ms": 3380,
+      "p95_ms": 46046,
+      "retries": {
+        "first_try": 49,
+        "retried": 6,
+        "unresolved": 5,
+        "total": 60
+      },
+      "tokens_total": 45515
+    },
+    "judge": {
+      "system": "jev",
+      "base": 25,
+      "hits": 24,
+      "accuracy": 96,
+      "kappa": 0.834,
+      "model": "gemini-3.1-flash-lite",
+      "cases_total": 30
+    }
+  },
+  "stability": {
+    "jev": {
+      "cases": 12,
+      "unstable": 0,
+      "flip_rate": 0
+    },
+    "gemini": {
+      "cases": 12,
+      "unstable": 3,
+      "flip_rate": 25
+    }
+  },
+  "spread": {
+    "legítimo": {
+      "n": 20,
+      "mean": 10.3,
+      "sd": 1.9
+    },
+    "fraude": {
+      "n": 20,
+      "mean": 83.6,
+      "sd": 4.4
+    },
+    "gris": {
+      "n": 20,
+      "mean": 38.1,
+      "sd": 13.3
+    }
+  }
+}

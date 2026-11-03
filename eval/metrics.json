@@ -1,8 +1,8 @@
 {
   "version": 2,
   "set_version": 1,
-  "run_id": "2026-11-02T23:12:16.217Z",
-  "generated_at": "2026-11-02T23:14:48.615Z",
+  "run_id": "2026-11-03T02:05:10.250Z",
+  "generated_at": "2026-11-03T02:05:10.617Z",
   "cases": 60,
   "systems": {
     "jev": {
@@ -43,6 +43,7 @@
       },
       "p50_ms": 223,
       "p95_ms": 315,
+      "retries": null,
       "tokens_total": null
     },
     "gemini": {
@@ -87,6 +88,7 @@
       },
       "p50_ms": 1957,
       "p95_ms": 10155,
+      "retries": null,
       "tokens_total": 47737
     },
     "judge": {

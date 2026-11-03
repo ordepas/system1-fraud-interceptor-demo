@@ -40,6 +40,7 @@ const scored = rows.filter((r) => r.length > 1 && r[ix.id]).filter((r) => {
   const src = r[ix.gem_fuente] || '';
   return {
     id,
+    run_index: r[ix.run_index] !== undefined ? Number(r[ix.run_index]) : null,
     class: c?.class ?? null,
     expected: c?.expected ?? null,
     jev,
@@ -50,6 +51,7 @@ const scored = rows.filter((r) => r.length > 1 && r[ix.id]).filter((r) => {
     jev_ms: Number(r[ix.jev_ms]) || null,
     gem_ms: Number(r[ix.gem_ms]) || null,
     gem_tokens: r[ix.gem_tokens] || '',
+    gem_intentos: r[ix.gem_intentos] || '',
     jev_fraude: r[ix.jev_fraude] ? Number(r[ix.jev_fraude]) : null,
   };
 });

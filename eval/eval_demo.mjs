@@ -110,7 +110,12 @@ if (existsSync(SET_PATH) && !process.argv.includes('--regenerate')) {
   console.log(`golden set v${SET_VERSION}: ${cases.length} casos`);
 }
 const LIMIT = Number(arg('limit', 0));
-if (LIMIT > 0) cases = cases.slice(0, LIMIT);
+if (LIMIT > 0) {
+  // estratificado: si no, el recorte cae solo en la primera clase
+  const cls = ['legítimo', 'fraude', 'gris'];
+  const per = Math.ceil(LIMIT / cls.length);
+  cases = cls.flatMap((k) => cases.filter((c) => c.classKey === k).slice(0, per)).slice(0, LIMIT);
+}
 
 const JEV_URL = process.env.JEV_API_URL || 'https://api.typesafe.ai/v1/systemone';
 const JEV_KEY = (process.env.JEV_API_KEY || process.env.TYPESAFE_API_KEY || '').trim();
@@ -119,6 +124,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const CALL_TIMEOUT_MS = Number(arg('timeout', 180000));
 const DELAY_MS = Number(arg('delay', 0));
+const RUNS = Number(arg('runs', 1));
 
 async function post(path, body) {
   // un caso lento no puede tumbar la corrida: se registra como sin respuesta
@@ -137,6 +143,7 @@ async function post(path, body) {
 
 const rows = [];
 for (const [idx, c] of cases.entries()) {
+ for (let run = 0; run < RUNS; run++) {
   const jev = await post('/api/evaluate/jev', { transaction: c.transaction, jevUrl: JEV_URL, jevApiKey: JEV_KEY });
   await sleep(150);
   // Reintentar cuando Gemini cae en contingencia (la heuristica del demo, no el modelo)
@@ -157,7 +164,7 @@ for (const [idx, c] of cases.entries()) {
   const gemChoice = gem.ok ? gem.json.recommendation : null;
   const gemSrc = gem.ok ? gem.json.source : 'error';
   rows.push({
-    id: c.transaction.id, clase: c.classKey, esperado: c.expected, set_version: SET_VERSION ?? 'generado',
+    id: c.transaction.id, run_index: run, clase: c.classKey, esperado: c.expected, set_version: SET_VERSION ?? 'generado',
     jev: jevChoice, jev_ms: jev.ok ? jev.json.latencyMs : null,
     jev_conf: jev.ok ? jev.json.decisionConfidence : null,
     jev_fraude: jev.ok ? jev.json.nullFraudProbability : null,
@@ -167,7 +174,9 @@ for (const [idx, c] of cases.entries()) {
     jev_ok: jevChoice ? String(jevChoice === c.expected) : '',
     gem_ok: gemChoice && gemSrc !== 'gemini-contingencia' ? String(gemChoice === c.expected) : '',
   });
-  process.stdout.write(`\r${idx + 1}/${cases.length}  ${c.transaction.id}`);
+  process.stdout.write(`\r${idx + 1}/${cases.length} run ${run + 1}/${RUNS}  ${c.transaction.id}   `);
+  if (DELAY_MS) await sleep(DELAY_MS);
+ }
 }
 
 const head = Object.keys(rows[0]);
@@ -182,7 +191,7 @@ const mean = (a) => Math.round(a.reduce((x, y) => x + y, 0) / a.length);
 const rate = (arr, k) => (arr.length ? `${((100 * arr.filter((r) => r[k] === 'true').length) / arr.length).toFixed(1)}%` : 'n/d');
 
 console.log('\n\nEVAL DEMO · System 1 (Jev) vs System 2 (Gemini)');
-console.log(`casos: ${rows.length} (${PER_CLASS} por clase) · gemini validos: ${valid.length} · contingencia descartada: ${rows.length - valid.length}`);
+console.log(`filas: ${rows.length} · ${RUNS} corrida(s) por caso · ${PER_CLASS} por clase · gemini validos: ${valid.length} · contingencia descartada: ${rows.length - valid.length}`);
 console.log(`acierto Jev:    ${rate(rows, 'jev_ok')}   (${rows.filter((r) => r.jev_ok === 'true').length}/${rows.length})`);
 console.log(`acierto Gemini: ${rate(valid, 'gem_ok')}   (${valid.filter((r) => r.gem_ok === 'true').length}/${valid.length})`);
 console.log(`acuerdo entre sistemas: ${((100 * agrees) / rows.length).toFixed(1)}%   (${agrees}/${rows.length})`);

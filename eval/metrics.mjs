@@ -55,6 +55,13 @@ for (const [name, okKey, msKey, decKey] of [
     confusion[exp] = confusion[exp] ?? {};
     confusion[exp][dec] = (confusion[exp][dec] ?? 0) + 1;
   }
+  const tries = scored.map((x) => x.gem_intentos).filter(Boolean);
+  const retry = name === 'gemini' && tries.length ? {
+    first_try: tries.filter((t) => t === '0').length,
+    retried: tries.filter((t) => t === '1' || t === '2').length,
+    unresolved: tries.filter((t) => t === 'no_resuelto').length,
+    total: tries.length,
+  } : null;
   systems[name] = {
     base: base.length,
     hits: base.filter((s) => s[okKey]).length,
@@ -63,6 +70,7 @@ for (const [name, okKey, msKey, decKey] of [
     confusion,
     p50_ms: p(lat, 0.5),
     p95_ms: p(lat, 0.95),
+    retries: retry,
     tokens_total: name === 'gemini'
       ? base.reduce((t, s) => {
         const [i, o] = String(s.gem_tokens).split('/').map(Number);
@@ -97,6 +105,24 @@ if (fs.existsSync('judged.json')) {
   }
 }
 
+
+// estabilidad: con varias corridas del mismo caso, cuántas veces la decisión cambia
+const runs = scored.map((s) => s.run_index).filter((v) => v !== undefined && v !== null);
+const stability = {};
+if (runs.length && new Set(runs).size > 1) {
+  for (const [name, key] of [['jev', 'jev'], ['gemini', 'gem']]) {
+    const byId = new Map();
+    for (const s of scored) {
+      if (s[key] == null) continue;
+      if (!byId.has(s.id)) byId.set(s.id, new Set());
+      byId.get(s.id).add(s[key]);
+    }
+    const total = byId.size;
+    const flipped = [...byId.values()].filter((set) => set.size > 1).length;
+    stability[name] = { cases: total, unstable: flipped, flip_rate: pct(flipped, total) };
+  }
+}
+
 const spread = {};
 for (const c of classes) {
   const v = scored.filter((s) => s.class === c && s.jev_fraude !== null).map((s) => s.jev_fraude);
@@ -110,6 +136,7 @@ const out = {
   generated_at: new Date().toISOString(),
   cases: scored.length,
   systems,
+  stability: Object.keys(stability).length ? stability : undefined,
   spread,
 };
 fs.writeFileSync('metrics.json', JSON.stringify(out, null, 2) + '\n', 'utf8');
@@ -118,5 +145,6 @@ for (const [name, s] of Object.entries(systems)) {
   const extra = s.kappa !== undefined ? `  kappa ${s.kappa}` : '';
   console.log(`${name.padEnd(7)} accuracy ${s.accuracy}% (${s.hits}/${s.base})${extra}`);
 }
+if (Object.keys(stability).length) console.log('estabilidad:', Object.entries(stability).map(([k, v]) => `${k} ${v.unstable}/${v.cases} casos cambian de decisión`).join(' · '));
 console.log('spread (sd de probabilidad de fraude):', classes.map((c) => `${c} ${spread[c].sd}`).join(' · '));
 console.log(`metrics.json escrito (golden set v${setVersion})`);

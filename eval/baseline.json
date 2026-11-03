@@ -1,8 +1,8 @@
 {
   "version": 2,
   "set_version": 1,
-  "run_id": "2026-11-02T16:25:44.264Z",
-  "generated_at": "2026-11-02T17:27:33.557Z",
+  "run_id": "2026-11-02T23:12:16.217Z",
+  "generated_at": "2026-11-02T23:14:48.615Z",
   "cases": 60,
   "systems": {
     "jev": {
@@ -41,8 +41,8 @@
           "BLOQUEO_PREVENTIVO": 5
         }
       },
-      "p50_ms": 233,
-      "p95_ms": 292,
+      "p50_ms": 223,
+      "p95_ms": 315,
       "tokens_total": null
     },
     "gemini": {
@@ -57,13 +57,13 @@
         },
         "fraude": {
           "base": 20,
-          "hits": 20,
-          "accuracy": 100
+          "hits": 19,
+          "accuracy": 95
         },
         "gris": {
           "base": 20,
-          "hits": 0,
-          "accuracy": 0
+          "hits": 1,
+          "accuracy": 5
         }
       },
       "confusion": {
@@ -72,25 +72,29 @@
         "gris": {},
         "APROBAR_DIRECTO": {
           "APROBAR_DIRECTO": 15,
-          "SOLICITAR_2FA": 5
+          "SOLICITAR_2FA": 3,
+          "BLOQUEO_PREVENTIVO": 2
         },
         "BLOQUEO_PREVENTIVO": {
-          "BLOQUEO_PREVENTIVO": 20
+          "BLOQUEO_PREVENTIVO": 19,
+          "sin_respuesta": 1
         },
         "SOLICITAR_2FA": {
-          "BLOQUEO_PREVENTIVO": 20
+          "BLOQUEO_PREVENTIVO": 18,
+          "SOLICITAR_2FA": 1,
+          "sin_respuesta": 1
         }
       },
-      "p50_ms": 4214,
-      "p95_ms": 52873,
-      "tokens_total": 49507
+      "p50_ms": 1957,
+      "p95_ms": 10155,
+      "tokens_total": 47737
     },
     "judge": {
       "system": "jev",
-      "base": 30,
-      "hits": 28,
-      "accuracy": 93.33,
-      "kappa": 0.793,
+      "base": 25,
+      "hits": 24,
+      "accuracy": 96,
+      "kappa": 0.834,
       "model": "gemini-3.1-flash-lite",
       "cases_total": 30
     }
@@ -99,7 +103,7 @@
     "legítimo": {
       "n": 20,
       "mean": 10.4,
-      "sd": 2.8
+      "sd": 2.9
     },
     "fraude": {
       "n": 20,
@@ -108,8 +112,8 @@
     },
     "gris": {
       "n": 20,
-      "mean": 40.7,
-      "sd": 15
+      "mean": 40.5,
+      "sd": 14.9
     }
   }
 }

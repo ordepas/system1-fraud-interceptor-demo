@@ -1,9 +1,10 @@
 {
   "version": 1,
-  "run_id": "2026-11-02T23:12:16.217Z",
+  "run_id": "2026-11-03T02:05:10.250Z",
   "cases": [
     {
       "id": "EVAL-legit-001",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -14,10 +15,12 @@
       "jev_ms": 447,
       "gem_ms": 9676,
       "gem_tokens": "355/436",
+      "gem_intentos": "",
       "jev_fraude": 9
     },
     {
       "id": "EVAL-legit-002",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -28,10 +31,12 @@
       "jev_ms": 213,
       "gem_ms": 1825,
       "gem_tokens": "349/434",
+      "gem_intentos": "",
       "jev_fraude": 12
     },
     {
       "id": "EVAL-legit-003",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -42,10 +47,12 @@
       "jev_ms": 187,
       "gem_ms": 2330,
       "gem_tokens": "363/561",
+      "gem_intentos": "",
       "jev_fraude": 12
     },
     {
       "id": "EVAL-legit-004",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -56,10 +63,12 @@
       "jev_ms": 223,
       "gem_ms": 10155,
       "gem_tokens": "356/439",
+      "gem_intentos": "",
       "jev_fraude": 8
     },
     {
       "id": "EVAL-legit-005",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -70,10 +79,12 @@
       "jev_ms": 341,
       "gem_ms": 1798,
       "gem_tokens": "353/423",
+      "gem_intentos": "",
       "jev_fraude": 7
     },
     {
       "id": "EVAL-legit-006",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -84,10 +95,12 @@
       "jev_ms": 230,
       "gem_ms": 2032,
       "gem_tokens": "350/431",
+      "gem_intentos": "",
       "jev_fraude": 12
     },
     {
       "id": "EVAL-legit-007",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -98,10 +111,12 @@
       "jev_ms": 284,
       "gem_ms": 2298,
       "gem_tokens": "364/469",
+      "gem_intentos": "",
       "jev_fraude": 15
     },
     {
       "id": "EVAL-legit-008",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -112,10 +127,12 @@
       "jev_ms": 231,
       "gem_ms": 1940,
       "gem_tokens": "357/414",
+      "gem_intentos": "",
       "jev_fraude": 7
     },
     {
       "id": "EVAL-legit-009",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -126,10 +143,12 @@
       "jev_ms": 246,
       "gem_ms": 1795,
       "gem_tokens": "354/396",
+      "gem_intentos": "",
       "jev_fraude": 7
     },
     {
       "id": "EVAL-legit-010",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -140,10 +159,12 @@
       "jev_ms": 207,
       "gem_ms": 1941,
       "gem_tokens": "348/453",
+      "gem_intentos": "",
       "jev_fraude": 10
     },
     {
       "id": "EVAL-legit-011",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -154,10 +175,12 @@
       "jev_ms": 213,
       "gem_ms": 11552,
       "gem_tokens": "362/540",
+      "gem_intentos": "",
       "jev_fraude": 13
     },
     {
       "id": "EVAL-legit-012",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -168,10 +191,12 @@
       "jev_ms": 237,
       "gem_ms": 2514,
       "gem_tokens": "358/453",
+      "gem_intentos": "",
       "jev_fraude": 8
     },
     {
       "id": "EVAL-legit-013",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -182,10 +207,12 @@
       "jev_ms": 182,
       "gem_ms": 2467,
       "gem_tokens": "355/407",
+      "gem_intentos": "",
       "jev_fraude": 9
     },
     {
       "id": "EVAL-legit-014",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -196,10 +223,12 @@
       "jev_ms": 198,
       "gem_ms": 1787,
       "gem_tokens": "349/434",
+      "gem_intentos": "",
       "jev_fraude": 13
     },
     {
       "id": "EVAL-legit-015",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -210,10 +239,12 @@
       "jev_ms": 225,
       "gem_ms": 2042,
       "gem_tokens": "363/527",
+      "gem_intentos": "",
       "jev_fraude": 12
     },
     {
       "id": "EVAL-legit-016",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -224,10 +255,12 @@
       "jev_ms": 186,
       "gem_ms": 1917,
       "gem_tokens": "356/460",
+      "gem_intentos": "",
       "jev_fraude": 8
     },
     {
       "id": "EVAL-legit-017",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -238,10 +271,12 @@
       "jev_ms": 184,
       "gem_ms": 3589,
       "gem_tokens": "353/415",
+      "gem_intentos": "",
       "jev_fraude": 8
     },
     {
       "id": "EVAL-legit-018",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -252,10 +287,12 @@
       "jev_ms": 315,
       "gem_ms": 1918,
       "gem_tokens": "350/452",
+      "gem_intentos": "",
       "jev_fraude": 12
     },
     {
       "id": "EVAL-legit-019",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -266,10 +303,12 @@
       "jev_ms": 276,
       "gem_ms": 1889,
       "gem_tokens": "364/474",
+      "gem_intentos": "",
       "jev_fraude": 18
     },
     {
       "id": "EVAL-legit-020",
+      "run_index": null,
       "class": "legítimo",
       "expected": "APROBAR_DIRECTO",
       "jev": "APROBAR_DIRECTO",
@@ -280,10 +319,12 @@
       "jev_ms": 194,
       "gem_ms": 1846,
       "gem_tokens": "357/406",
+      "gem_intentos": "",
       "jev_fraude": 8
     },
     {
       "id": "EVAL-fraud-001",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -294,10 +335,12 @@
       "jev_ms": 277,
       "gem_ms": 1955,
       "gem_tokens": "364/465",
+      "gem_intentos": "",
       "jev_fraude": 89
     },
     {
       "id": "EVAL-fraud-002",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -308,10 +351,12 @@
       "jev_ms": 216,
       "gem_ms": 1951,
       "gem_tokens": "366/485",
+      "gem_intentos": "",
       "jev_fraude": 79
     },
     {
       "id": "EVAL-fraud-003",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -322,10 +367,12 @@
       "jev_ms": 218,
       "gem_ms": 1798,
       "gem_tokens": "354/457",
+      "gem_intentos": "",
       "jev_fraude": 82
     },
     {
       "id": "EVAL-fraud-004",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -336,10 +383,12 @@
       "jev_ms": 194,
       "gem_ms": 1847,
       "gem_tokens": "361/427",
+      "gem_intentos": "",
       "jev_fraude": 86
     },
     {
       "id": "EVAL-fraud-005",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -350,10 +399,12 @@
       "jev_ms": 214,
       "gem_ms": 2098,
       "gem_tokens": "363/531",
+      "gem_intentos": "",
       "jev_fraude": 90
     },
     {
       "id": "EVAL-fraud-006",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -364,10 +415,12 @@
       "jev_ms": 192,
       "gem_ms": null,
       "gem_tokens": "",
+      "gem_intentos": "",
       "jev_fraude": 77
     },
     {
       "id": "EVAL-fraud-007",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -378,10 +431,12 @@
       "jev_ms": 243,
       "gem_ms": 2196,
       "gem_tokens": "355/467",
+      "gem_intentos": "",
       "jev_fraude": 81
     },
     {
       "id": "EVAL-fraud-008",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -392,10 +447,12 @@
       "jev_ms": 210,
       "gem_ms": 2190,
       "gem_tokens": "362/495",
+      "gem_intentos": "",
       "jev_fraude": 87
     },
     {
       "id": "EVAL-fraud-009",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -406,10 +463,12 @@
       "jev_ms": 204,
       "gem_ms": 2626,
       "gem_tokens": "363/519",
+      "gem_intentos": "",
       "jev_fraude": 90
     },
     {
       "id": "EVAL-fraud-010",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -420,10 +479,12 @@
       "jev_ms": 176,
       "gem_ms": 1945,
       "gem_tokens": "366/455",
+      "gem_intentos": "",
       "jev_fraude": 80
     },
     {
       "id": "EVAL-fraud-011",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -434,10 +495,12 @@
       "jev_ms": 229,
       "gem_ms": 1777,
       "gem_tokens": "354/443",
+      "gem_intentos": "",
       "jev_fraude": 81
     },
     {
       "id": "EVAL-fraud-012",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -448,10 +511,12 @@
       "jev_ms": 193,
       "gem_ms": 1859,
       "gem_tokens": "363/456",
+      "gem_intentos": "",
       "jev_fraude": 85
     },
     {
       "id": "EVAL-fraud-013",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -462,10 +527,12 @@
       "jev_ms": 191,
       "gem_ms": 2252,
       "gem_tokens": "364/476",
+      "gem_intentos": "",
       "jev_fraude": 90
     },
     {
       "id": "EVAL-fraud-014",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -476,10 +543,12 @@
       "jev_ms": 213,
       "gem_ms": 2108,
       "gem_tokens": "366/464",
+      "gem_intentos": "",
       "jev_fraude": 78
     },
     {
       "id": "EVAL-fraud-015",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -490,10 +559,12 @@
       "jev_ms": 225,
       "gem_ms": 1931,
       "gem_tokens": "354/484",
+      "gem_intentos": "",
       "jev_fraude": 81
     },
     {
       "id": "EVAL-fraud-016",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -504,10 +575,12 @@
       "jev_ms": 211,
       "gem_ms": 1923,
       "gem_tokens": "361/463",
+      "gem_intentos": "",
       "jev_fraude": 85
     },
     {
       "id": "EVAL-fraud-017",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -518,10 +591,12 @@
       "jev_ms": 183,
       "gem_ms": 2225,
       "gem_tokens": "363/528",
+      "gem_intentos": "",
       "jev_fraude": 90
     },
     {
       "id": "EVAL-fraud-018",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -532,10 +607,12 @@
       "jev_ms": 226,
       "gem_ms": 22541,
       "gem_tokens": "367/523",
+      "gem_intentos": "",
       "jev_fraude": 79
     },
     {
       "id": "EVAL-fraud-019",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -546,10 +623,12 @@
       "jev_ms": 220,
       "gem_ms": 2094,
       "gem_tokens": "355/462",
+      "gem_intentos": "",
       "jev_fraude": 81
     },
     {
       "id": "EVAL-fraud-020",
+      "run_index": null,
       "class": "fraude",
       "expected": "BLOQUEO_PREVENTIVO",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -560,10 +639,12 @@
       "jev_ms": 320,
       "gem_ms": 2211,
       "gem_tokens": "362/470",
+      "gem_intentos": "",
       "jev_fraude": 88
     },
     {
       "id": "EVAL-gray-001",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -574,10 +655,12 @@
       "jev_ms": 205,
       "gem_ms": 1856,
       "gem_tokens": "349/482",
+      "gem_intentos": "",
       "jev_fraude": 34
     },
     {
       "id": "EVAL-gray-002",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -588,10 +671,12 @@
       "jev_ms": 203,
       "gem_ms": 1927,
       "gem_tokens": "354/480",
+      "gem_intentos": "",
       "jev_fraude": 47
     },
     {
       "id": "EVAL-gray-003",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -602,10 +687,12 @@
       "jev_ms": 246,
       "gem_ms": 1887,
       "gem_tokens": "355/441",
+      "gem_intentos": "",
       "jev_fraude": 56
     },
     {
       "id": "EVAL-gray-004",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -616,10 +703,12 @@
       "jev_ms": 238,
       "gem_ms": 2168,
       "gem_tokens": "347/519",
+      "gem_intentos": "",
       "jev_fraude": 20
     },
     {
       "id": "EVAL-gray-005",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -630,10 +719,12 @@
       "jev_ms": 243,
       "gem_ms": 1958,
       "gem_tokens": "347/471",
+      "gem_intentos": "",
       "jev_fraude": 32
     },
     {
       "id": "EVAL-gray-006",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -644,10 +735,12 @@
       "jev_ms": 213,
       "gem_ms": 2055,
       "gem_tokens": "355/489",
+      "gem_intentos": "",
       "jev_fraude": 51
     },
     {
       "id": "EVAL-gray-007",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -658,10 +751,12 @@
       "jev_ms": 227,
       "gem_ms": 1852,
       "gem_tokens": "356/455",
+      "gem_intentos": "",
       "jev_fraude": 62
     },
     {
       "id": "EVAL-gray-008",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -672,10 +767,12 @@
       "jev_ms": 250,
       "gem_ms": 1845,
       "gem_tokens": "348/445",
+      "gem_intentos": "",
       "jev_fraude": 22
     },
     {
       "id": "EVAL-gray-009",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -686,10 +783,12 @@
       "jev_ms": 224,
       "gem_ms": 1775,
       "gem_tokens": "348/429",
+      "gem_intentos": "",
       "jev_fraude": 31
     },
     {
       "id": "EVAL-gray-010",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -700,10 +799,12 @@
       "jev_ms": 276,
       "gem_ms": 2229,
       "gem_tokens": "353/496",
+      "gem_intentos": "",
       "jev_fraude": 51
     },
     {
       "id": "EVAL-gray-011",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -714,10 +815,12 @@
       "jev_ms": 274,
       "gem_ms": 1878,
       "gem_tokens": "354/459",
+      "gem_intentos": "",
       "jev_fraude": 55
     },
     {
       "id": "EVAL-gray-012",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -728,10 +831,12 @@
       "jev_ms": 246,
       "gem_ms": 1957,
       "gem_tokens": "349/467",
+      "gem_intentos": "",
       "jev_fraude": 24
     },
     {
       "id": "EVAL-gray-013",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -742,10 +847,12 @@
       "jev_ms": 269,
       "gem_ms": 1997,
       "gem_tokens": "349/443",
+      "gem_intentos": "",
       "jev_fraude": 34
     },
     {
       "id": "EVAL-gray-014",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -756,10 +863,12 @@
       "jev_ms": 257,
       "gem_ms": 1825,
       "gem_tokens": "354/463",
+      "gem_intentos": "",
       "jev_fraude": 47
     },
     {
       "id": "EVAL-gray-015",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -770,10 +879,12 @@
       "jev_ms": 311,
       "gem_ms": 15530,
       "gem_tokens": "355/469",
+      "gem_intentos": "",
       "jev_fraude": 53
     },
     {
       "id": "EVAL-gray-016",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -784,10 +895,12 @@
       "jev_ms": 236,
       "gem_ms": 2284,
       "gem_tokens": "347/565",
+      "gem_intentos": "",
       "jev_fraude": 18
     },
     {
       "id": "EVAL-gray-017",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -798,10 +911,12 @@
       "jev_ms": 245,
       "gem_ms": null,
       "gem_tokens": "",
+      "gem_intentos": "",
       "jev_fraude": 35
     },
     {
       "id": "EVAL-gray-018",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -812,10 +927,12 @@
       "jev_ms": 217,
       "gem_ms": 2030,
       "gem_tokens": "355/454",
+      "gem_intentos": "",
       "jev_fraude": 54
     },
     {
       "id": "EVAL-gray-019",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "BLOQUEO_PREVENTIVO",
@@ -826,10 +943,12 @@
       "jev_ms": 182,
       "gem_ms": 2717,
       "gem_tokens": "356/462",
+      "gem_intentos": "",
       "jev_fraude": 65
     },
     {
       "id": "EVAL-gray-020",
+      "run_index": null,
       "class": "gris",
       "expected": "SOLICITAR_2FA",
       "jev": "SOLICITAR_2FA",
@@ -840,6 +959,7 @@
       "jev_ms": 215,
       "gem_ms": 1950,
       "gem_tokens": "348/496",
+      "gem_intentos": "",
       "jev_fraude": 19
     }
   ]
